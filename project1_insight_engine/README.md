@@ -34,12 +34,14 @@ Python · pandas · sentence-transformers · scikit-learn / HDBSCAN · an LLM (G
 ## Project phases
 - **Phase 1 — Data:** get the data, understand it, first look. ✅
 - **Phase 2 — Clean:** clean & prepare the complaint text. ✅
-- **Phase 3 — Engine:** embed → cluster → name → rank (the core NLP). ⬜
+- **Phase 3 — Engine:** embed → cluster → name → rank (the core NLP). ✅ (on 18k sample)
 - **Phase 4 — Platform:** the Streamlit upload app + dashboard. ⬜
 - **Phase 5 — Automation:** scheduled auto-refresh (optional). ⬜
 
 ## Status
-🚧 In progress — Phase 3 (NLP engine). Data ready: ~112k clean credit-card complaints.
+🚧 In progress — Phase 3 done on an 18k sample (embeddings → 12 themes → severity/priority →
+LLM-named). Next: scale to all ~112k, then build the upload app. Key output: a prioritized
+"top credit-card problems" list + priority matrix.
 
 ---
 *Part of Swagata Bhowmik's data science portfolio. Built on real public data, defensible end-to-end.*

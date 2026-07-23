@@ -136,6 +136,14 @@ each notebook and is run after every data operation.
 - Keep them simple but EFFECTIVE. A good chart often explains more than a paragraph.
 - Every chart gets a one-line interpretation of what it shows and why it matters.
 
+### Rule 14 — Explain EVERY new tool/library/model the moment it's introduced
+- Whenever a new library, tool, module, model, or technique appears (e.g. Hugging Face,
+  sentence-transformers, scikit-learn, a model name like all-MiniLM-L6-v2), STOP and explain in
+  plain words: what it is, why we're using it, what it does for us. No unexplained jargon.
+- Also teach how to tell a long-running step is WORKING vs STUCK (progress bars, elapsed/remaining
+  time, the Jupyter [*] busy indicator). Swagata should never be left guessing if it froze.
+- Add these explanations to the Learning Journal so they're revisable for interviews.
+
 ---
 
 # PART 1 — FINALIZED RESUME PLAN
@@ -534,3 +542,40 @@ My compute is: [FILL IN]. Let's build Project [X] — start by confirming the re
 - Built + verified phase2_clean.ipynb (6 cells, 0 errors). Journal Entry 009 added.
 - **Next:** Phase 3 — NLP engine (embeddings → clustering → theme naming → ranking). This is the
   heart of the project. Then push Phase 2+3.
+
+### 2026-07-22 — Session 1 (cont.): Phase 2 reviewed & pushed + new rules
+- Added **Rule 12 (validate with real before/after examples)** and **Rule 13 (visualize generously)**.
+- Enhanced phase2_clean.ipynb with 3 real before→after cleaning examples + 2 charts (cleaning
+  funnel, XXXX-mask distribution). Verified: 8 cells, 0 errors.
+- Swagata ran the full git cycle herself (add → commit → push). Commit 0701328 on GitHub.
+- Journal entries 009 (cleaning) + 010 (show-examples & visualize principles) added.
+- **NEXT: Phase 3 — NLP engine.** Pending decision: prototype on ~15-20k sample first (recommended)
+  vs full 112k on CPU vs Colab GPU. Steps: embeddings → clustering → theme naming → ranking.
+
+### 2026-07-22 — Session 1 (cont.): Phase 3 started + workflow fix
+- **IMPORTANT WORKFLOW FIX:** Kiro's command tool interrupts long-running jobs, so heavy scripts
+  (embedding, full-notebook execution) must be RUN BY SWAGATA in her own VS Code terminal, not by
+  Kiro. Short commands (file checks, git) are fine for Kiro. Kiro writes/verifies the code;
+  Swagata runs the long jobs and pastes output back.
+- Phase 3 begun: installed sentence-transformers + torch + scikit-learn. Wrote build_embeddings.py
+  (samples 18k, embeds with all-MiniLM-L6-v2 -> 384-dim vectors, saves sample_complaints.parquet +
+  sample_embeddings.npy). Embedding confirmed running in Swagata's terminal (~12 min for 18k).
+- **NEXT after embeddings finish:** clustering (group into themes) -> name themes -> rank by
+  frequency x severity -> validate + visualize. These steps are FAST and reuse the saved vectors.
+
+### 2026-07-22 — Session 1 (cont.): PHASE 3 ENGINE COMPLETE (on 18k sample) ✅
+- Full NLP pipeline working end-to-end on the 18k sample:
+  1. Embeddings (all-MiniLM-L6-v2, 384-dim) — build_embeddings.py, cached to .npy (~12 min once).
+  2. Clustering (KMeans, 12 themes) — build_clusters.py.
+  3. Severity (VADER negativity + high-stakes keyword share) + priority = volume% × severity —
+     build_severity.py → priority_matrix.png.
+  4. LLM theme naming (Gemini gemini-flash-lite-latest, key in .env) — name_themes_llm.py →
+     theme_final.csv.
+- Built + verified phase3_engine.ipynb (7 cells, 0 errors, charts embedded). Fixed a KeyError
+  (theme_final.csv had no 'theme' column → derive top theme from in-notebook priority table).
+- Top problems (18k): #1 Unauthorized/Fraudulent Charges (priority 10.0), #2 Merchant/Refund
+  Disputes, #3 Credit Reporting Disputes... Fraud dominant (spread across ~3 clusters — noted).
+- Outputs saved: theme_final.csv, theme_sizes.png, theme_map.png, priority_matrix.png.
+- Journal entries 011 (embeddings+clustering), 012 (severity/priority), 013 (LLM naming) added.
+- **NEXT:** (a) Swagata reviews phase3_engine.ipynb + push Phase 3; (b) scale to 112k later;
+  (c) Phase 4 — Streamlit upload app.

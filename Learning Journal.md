@@ -369,3 +369,102 @@ the work easier to understand now AND easier to defend in an interview.
   are verifiable and easy to explain to non-technical stakeholders — not just numbers on a slide."
 
 **Note:** these are now Rules 12 & 13 in the master plan; Kiro applies them automatically.
+
+## Entry 011 — Phase 3: embeddings + clustering (the NLP engine core)
+**Date:** 2026-07-22 · **Context:** Project 1, Phase 3 on 18k sample
+
+**What we did:** Turned 18,000 cleaned complaints into meaning-vectors (embeddings), then grouped
+them into 12 themes (clustering), and described each theme with keywords + real examples.
+
+**Plain-English theory:**
+- **Embedding** — turning each complaint into a list of numbers (here 384) that captures its
+  MEANING, so similar complaints get similar numbers ("a location on a meaning-map"). Model:
+  sentence-transformers `all-MiniLM-L6-v2`. Slow on CPU (~12 min for 18k) -> we saved the vectors.
+- **Clustering** — finding the natural crowds of dots on that map; each crowd = a theme. We used
+  **KMeans** (splits points into K groups). K=12 here.
+- **TF-IDF** — a score that highlights words common in ONE theme but rare overall -> used to label
+  each theme with its distinctive keywords.
+
+**Result (real themes found):** fraud/unauthorized charges (13%), merchant disputes/refunds,
+billing-error disputes, card declined/usability, credit reporting, prepaid/gift-card balance,
+balance-transfer/interest, account closed without warning, identity theft, autopay failures,
+rewards/points disputes, late-payment reporting. All business-sensible and defensible.
+
+**Interview angle:**
+- Q: "How did you find the themes without labels?" A: "Unsupervised learning — I embedded the
+  complaints with a sentence-transformer, then clustered the vectors with KMeans, and labelled
+  each cluster with its top TF-IDF terms plus example complaints."
+- Q: "How do you choose K (number of clusters)?" A: start reasonable, inspect coherence, adjust;
+  can use metrics (silhouette) or a method like HDBSCAN that finds clusters automatically.
+
+**Mistakes / gotchas (found honestly):**
+- Privacy placeholders ("redacted", "date", "money") leaked into the keyword labels as noise ->
+  add them to the stopword list so theme labels are clean.
+- Some themes overlap (two "dispute" clusters) -> normal; tune K or use better labeling.
+- KMeans needs K chosen up front and assumes round-ish clusters; alternatives exist (HDBSCAN).
+
+## Entry 012 — Severity scoring + priority ranking (business judgment)
+**Date:** 2026-07-22 · **Context:** Project 1, Phase 3
+
+**What we did:** Added a SEVERITY dimension so themes are ranked by PRIORITY (common AND severe),
+not just volume. Built a priority-matrix chart.
+
+**How severity was measured (two honest signals):**
+1. **Negativity** — VADER sentiment (lexicon-based, fast, no API) on each complaint; compound
+   score mapped to 0..1 where 1 = most negative.
+2. **High-stakes words** — share of complaints mentioning serious terms (fraud, unauthorized,
+   stolen, identity, threat, legal...).
+   theme_severity = average of the two. priority = volume_share(%) x severity.
+
+**What it means (theory):**
+- **Sentiment analysis** — estimating emotional tone of text. VADER = a rule/lexicon method
+  (fast, transparent) vs model-based sentiment (slower, sometimes more accurate).
+- **Priority matrix** — a 2x2 business tool: impact (severity) vs frequency (volume); top-right
+  = high/high = act first.
+
+**Result:** Fraud ranked #1 (common + most severe). Identity theft rose despite lower volume (high
+severity). Rewards/points fell to last (common but low severity). This matches real business logic.
+
+**Interview angle:**
+- Q: "How did you prioritize the problems?" A: "Not by volume alone - I combined frequency with a
+  severity score (sentiment negativity + high-stakes keyword share) into a priority index, and
+  visualized it as a frequency-vs-severity matrix so the 'fix-first' items are obvious."
+- Q: "Why VADER not a deep model?" A: fast, transparent, no GPU/API; good enough as a severity
+  proxy for prototyping. A transformer sentiment model is a possible upgrade.
+
+**Mistakes / gotchas:** severity here is a PROXY (lexicon + keywords), not ground truth. Be honest
+about that. VADER can misread sarcasm/formal text; the keyword list is hand-picked. Defensible for
+a prototype, and we state its limits.
+
+## Entry 013 — LLM-powered theme naming (GenAI in the pipeline)
+**Date:** 2026-07-22 · **Context:** Project 1, Phase 3
+
+**What we did:** Used Google Gemini (free tier, model gemini-flash-lite-latest) to turn each
+theme's keywords + real example complaints into a crisp professional NAME + one-line description.
+Replaced keyword-joins ("Company / Received / Payment") with names like "Payment Processing &
+Account Management".
+
+**How it works:** for each theme, send top keywords + 3 example complaints to the LLM, ask for
+JSON {name, description}. Fallback to keyword-name if a call fails. Key read safely from .env.
+
+**What it means (theory):**
+- **API key** — a secret token that authenticates our requests to a paid/free web service. Kept
+  in .env (git-ignored), never hard-coded or committed.
+- **Prompt** — the instruction we send the LLM; we ask for strict JSON so the output is parseable.
+- **Fallback / graceful degradation** — if the AI call fails, we still produce a usable name from
+  keywords, so the pipeline never breaks.
+- **This is the "GenAI" signal** in the project: embeddings+clustering (classic ML) + an LLM for
+  labeling = a modern hybrid pipeline.
+
+**Interview angle:**
+- Q: "Where did you use GenAI / an LLM?" A: "For theme labeling — I fed each cluster's keywords
+  and sample complaints to Gemini and asked for a concise name and description in JSON, with a
+  keyword-based fallback if the API failed. So the heavy lifting is done by embeddings+clustering,
+  and the LLM adds a human-readable layer on top."
+- Q: "How do you keep API keys safe?" A: ".env file loaded at runtime, git-ignored; never in code
+  or the repo."
+
+**Mistakes / gotchas:** model names change over time (gemini-1.5/2.5 retired for new keys) -> list
+available models rather than hard-code. Free tier has rate limits (429) -> pace calls (sleep) and
+add a fallback. Some themes overlapped (fraud spread across 3 clusters) -> note honestly; could
+reduce K or merge.
