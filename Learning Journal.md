@@ -280,3 +280,92 @@ all dates valid (2023–2026), only known issue = 2 product labels to merge.
   extraction quietly broke my dates. The output must be re-checked, not assumed correct."
 
 **Mistakes / gotchas:** The biggest risk is *assuming* a step worked. Always re-validate output.
+
+## Entry 008 — Git & GitHub: the stage → commit → push cycle
+**Date:** 2026-07-22 · **Context:** Phase 1 checkpoint — first push
+
+**What we did:** Pushed Phase 1 to GitHub (repo: Complaint-Analysis-Report).
+
+**What it means (theory) — the 3 stages, like shipping a package:**
+- **Stage (`git add`)** — put chosen files "into the box" (mark what to save).
+- **Commit (`git commit -m "message"`)** — seal & label the box; a save point ON YOUR COMPUTER.
+- **Push (`git push`)** — ship the box to GitHub (the internet). This creates the green square.
+- Key: commit ≠ push. Commit is local; push uploads. You can commit many times, push once.
+
+**Useful terms:**
+- **repository (repo)** — the project's folder tracked by Git.
+- **branch / main** — a line of work; `main` is the primary one.
+- **origin** — the nickname for the remote GitHub repo (the "address").
+- **`.gitignore`** — lists files Git must NEVER upload (here: `.venv`, the 8.5GB data, the parquet).
+
+**Interpretation of the success line:** `9398eae..d071a68  main -> main` = the commit moved from
+local to GitHub. Only 129 KiB uploaded because data/venv were correctly ignored.
+
+**Interview angle:**
+- Q: "How do you use version control?"
+  A: "Git with a phase-by-phase commit history; I keep large data and environments out via
+  .gitignore, and push meaningful commits so the history tells the story of how the project evolved."
+- Q: "Why not commit the dataset?" A: it's large and re-downloadable; repos should stay light and
+  contain code, not big data or secrets.
+
+**Mistakes / gotchas:** Never commit big data files, virtual environments, or secrets/API keys.
+Always check `git add --dry-run` / `git check-ignore` before the first push of a new project.
+
+## Entry 009 — Phase 2: cleaning text for NLP (without destroying meaning)
+**Date:** 2026-07-22 · **Context:** Project 1, Phase 2
+
+**What we did:** Cleaned 124,962 raw complaints into 112,481 clean, unique, model-ready ones.
+
+**Why we did it:** NLP groups text by meaning. Noise (privacy masks) and duplicates would make
+themes fuzzy and inflate counts. Clean input = trustworthy output.
+
+**What we did, evidence-first:** we PROFILED the issues before cleaning and found:
+- 12,268 exact-duplicate narratives (~10%) → would fake-inflate theme counts → removed.
+- 75.9% of narratives contain `XXXX` privacy masks (median 4 each) → normalized, not deleted.
+- 42.5% contain money masks `{$70.00}`; many have `XX/XX/year>` redacted dates.
+- 256 narratives < 50 chars (low signal) → dropped (we chose the conservative <50 threshold).
+
+**How we cleaned (careful, not aggressive):** replaced masks with neutral placeholders
+(`<redacted>`, `<date>`, `<money>`) so the surrounding real sentence stays intact; merged the two
+product labels ("Credit card" + "Credit card or prepaid card") into one; kept the ORIGINAL text
+in its own column alongside the cleaned one (before/after always available).
+
+**What it means (theory):**
+- **Text preprocessing / normalization** — standardizing raw text so a model sees signal, not noise.
+- **Regular expressions (regex)** — pattern rules to find/replace text (e.g. `X{2,}` = 2+ X's).
+- **De-duplication** — removing repeated records so frequency counts are honest.
+- **Why placeholders, not deletion?** removing masked tokens entirely can break sentences and lose
+  context; a neutral token preserves grammar and meaning while removing identity noise.
+
+**Interpretation:** 124,962 → 112,481 rows; single 'Credit card' label; validation passed.
+
+**Interview angle:**
+- Q: "How did you preprocess the text?"
+  A: "Evidence-first: I profiled the noise (privacy masks, duplicates, short texts), then cleaned
+  conservatively — normalized redaction masks to neutral placeholders to keep sentence meaning,
+  removed ~10% exact duplicates that would have inflated theme frequencies, merged inconsistent
+  product labels, and kept the raw text for auditability. Then I re-validated."
+- Q: "Why not just delete all the XXXX?" A: it would fragment sentences and lose context; a
+  placeholder preserves structure while removing the identity noise.
+
+**Mistakes / gotchas:** Over-cleaning destroys signal. Always keep the raw text. Always
+re-validate after cleaning (we confirmed 0 duplicates + single label post-clean).
+
+## Entry 010 — Two working principles: show real examples + visualize
+**Date:** 2026-07-22 · **Context:** made permanent (Rules 12 & 13)
+
+**What we did:** Adopted two habits for every phase going forward:
+1. **Validate with REAL examples** — always show a concrete before → after from the actual data,
+   not just summary numbers. (e.g. Phase 2 shows 3 real complaints raw vs cleaned.)
+2. **Visualize generously** — add clear, simple charts wherever they aid understanding, each with
+   a one-line interpretation.
+
+**Why:** tangible proof beats claims; a picture often explains more than a paragraph. Both make
+the work easier to understand now AND easier to defend in an interview.
+
+**Interview angle:**
+- Q: "How do you make your analysis trustworthy/communicable?"
+  A: "I demonstrate each step on real examples (before/after) and visualize the impact, so results
+  are verifiable and easy to explain to non-technical stakeholders — not just numbers on a slide."
+
+**Note:** these are now Rules 12 & 13 in the master plan; Kiro applies them automatically.

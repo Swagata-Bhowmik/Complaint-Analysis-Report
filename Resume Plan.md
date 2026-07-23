@@ -124,6 +124,18 @@ Any result that looks off gets investigated, never ignored. (Born from Phase 1, 
 silently-corrupted dates — see Learning Journal Entry 006.) A reusable validation cell lives in
 each notebook and is run after every data operation.
 
+### Rule 12 — Validate with REAL examples (show, don't just tell)
+- Every transformation/step must be demonstrated on a REAL example from the actual data:
+  show the concrete BEFORE → AFTER so we can see (a) what we intended, (b) how we did it,
+  (c) what it looks like on real data. Never rely on summary numbers alone.
+- This makes results tangible, defensible, and interview-ready.
+
+### Rule 13 — Visualize generously (pictures teach)
+- Include as many clear graphs/pictorial representations as are helpful — distributions, trends,
+  breakdowns, before/after, cluster maps, rankings, etc.
+- Keep them simple but EFFECTIVE. A good chart often explains more than a paragraph.
+- Every chart gets a one-line interpretation of what it shows and why it matters.
+
 ---
 
 # PART 1 — FINALIZED RESUME PLAN
@@ -496,3 +508,29 @@ My compute is: [FILL IN]. Let's build Project [X] — start by confirming the re
   CFPB data is public & permanently re-downloadable. All project work runs on the small slice only,
   never the 8.5 GB file. (8.5 GB = only ~1.3% of 640 GB free, so no urgency, but no need to hoard.)
 - Built notebooks/scan_data.py (memory-safe chunked profiler). Next: run it for the true data picture.
+
+### 2026-07-22 — Session 1 (cont.): PHASE 1 COMPLETE ✅ + first push
+- Added **Rule 11 (Data is sacred — validate everything)** after catching the date-corruption bug.
+- Built reusable validation tool `data_checks.py`; added a validation cell to phase1_data.ipynb.
+- **Phase 1 DONE & verified:** clean 74MB Parquet (124,962 credit-card complaints, 2023-2026,
+  all dates valid, 0 dupes, 0 empty narratives; only known task = merge 2 product labels in P2).
+- **First GitHub push done** (repo: Complaint-Analysis-Report, commit d071a68). Only code/docs
+  pushed (129 KiB); data + .venv correctly ignored. First green square earned.
+- Journal entries added: 005 (EDA/profiling), 006 (debugging corrupted dates), 007 (validate-
+  everything principle), 008 (Git/GitHub cycle).
+- **PENDING:** safely delete the 8.5 GB raw file now that the clean slice is verified. Then Phase 2
+  (clean the text: merge product labels, strip XXXX privacy masks, dedupe, prep narratives).
+- **8.5 GB raw file decision: KEEP PERMANENTLY** as the local master "raw ore" (640 GB free, so
+  cost is negligible). Lets us re-slice any product/date range anytime without re-downloading.
+  It stays git-ignored (never pushed). Location: complaints.csv/complaints.csv.
+
+### 2026-07-22 — Session 1 (cont.): PHASE 2 COMPLETE ✅
+- Profiled text issues first (evidence-based): 12,268 exact-dup narratives (~10%), 75.9% have
+  XXXX masks, 42.5% money masks, 256 under 50 chars.
+- Built reusable `text_cleaning.py`: merge product labels, drop dups + short(<50), normalize
+  privacy masks to <redacted>/<date>/<money> placeholders (meaning preserved), keep original text.
+- Result: 124,962 → **112,481 clean unique complaints**, single 'Credit card' label. Validated
+  (Rule 11) then saved to data/creditcard_clean.parquet (144 MB, holds raw + cleaned text).
+- Built + verified phase2_clean.ipynb (6 cells, 0 errors). Journal Entry 009 added.
+- **Next:** Phase 3 — NLP engine (embeddings → clustering → theme naming → ranking). This is the
+  heart of the project. Then push Phase 2+3.

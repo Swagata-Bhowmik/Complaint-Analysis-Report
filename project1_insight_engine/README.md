@@ -32,14 +32,14 @@ Python · pandas · sentence-transformers · scikit-learn / HDBSCAN · an LLM (G
 · Streamlit (platform) · GitHub Actions (free automation).
 
 ## Project phases
-- **Phase 1 — Data:** get the data, understand it, first look. ⬜
-- **Phase 2 — Clean:** clean & prepare the complaint text. ⬜
+- **Phase 1 — Data:** get the data, understand it, first look. ✅
+- **Phase 2 — Clean:** clean & prepare the complaint text. ✅
 - **Phase 3 — Engine:** embed → cluster → name → rank (the core NLP). ⬜
 - **Phase 4 — Platform:** the Streamlit upload app + dashboard. ⬜
 - **Phase 5 — Automation:** scheduled auto-refresh (optional). ⬜
 
 ## Status
-🚧 In progress — Phase 1.
+🚧 In progress — Phase 3 (NLP engine). Data ready: ~112k clean credit-card complaints.
 
 ---
 *Part of Swagata Bhowmik's data science portfolio. Built on real public data, defensible end-to-end.*
