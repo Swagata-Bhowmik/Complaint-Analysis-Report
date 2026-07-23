@@ -1,0 +1,25 @@
+# --- Python virtual environment (never upload; it's huge and machine-specific) ---
+.venv/
+venv/
+__pycache__/
+*.pyc
+
+# --- Data files (too large / not ours to redistribute; keep repo light) ---
+# We keep data locally but do NOT push raw datasets to GitHub.
+project1_insight_engine/data/
+*.csv
+*.zip
+*.parquet
+
+# --- Notebook checkpoints ---
+.ipynb_checkpoints/
+
+# --- Secrets / API keys (NEVER commit these) ---
+.env
+*.key
+secrets.*
+
+# --- OS / editor junk ---
+.DS_Store
+Thumbs.db
+.vscode/

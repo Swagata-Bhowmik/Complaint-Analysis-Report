@@ -103,6 +103,27 @@ Every piece of code given must have ALL of the following:
 - Append-only, newest at the bottom, with a table of contents kept updated.
 - This is how theory + interview prep is captured continuously, not left to the end.
 
+### Rule 11 — DATA IS SACRED: analyze thoroughly + validate everything (non-negotiable)
+> The data is the foundation. If the data is wrong, missing, uncleaned, or misunderstood,
+> EVERYTHING built on it is wasted. We never act on data we haven't thoroughly understood.
+> Validation is not optional — it is part of every step.
+
+**The mandatory cycle for ANY data we touch (raw OR extracted OR transformed):**
+1. **PROFILE before acting** — size, columns, data types, date range, distributions.
+2. **CHECK COMPLETENESS** — % missing (nulls) per column; flag columns too empty to trust.
+3. **CHECK VALIDITY** — do values make sense? (valid dates, sane ranges, expected categories).
+4. **CHECK QUALITY** — duplicates; inconsistent labels (same thing under many names).
+5. **UNDERSTAND THE REAL SOURCE FIRST** — know what the source truly is before extracting.
+6. **EXTRACT / TRANSFORM** — only after 1–5.
+7. **RE-VALIDATE THE RESULT** — after any operation, confirm the output ticks EVERY requirement
+   we intended: right rows? right columns? valid dates? expected counts? nothing corrupted?
+8. **ONLY THEN move on** — never proceed on unvalidated output.
+
+**Golden line:** "Don't just perform the step — validate that the step did what we intended."
+Any result that looks off gets investigated, never ignored. (Born from Phase 1, where we caught
+silently-corrupted dates — see Learning Journal Entry 006.) A reusable validation cell lives in
+each notebook and is run after every data operation.
+
 ---
 
 # PART 1 — FINALIZED RESUME PLAN
@@ -446,3 +467,32 @@ My compute is: [FILL IN]. Let's build Project [X] — start by confirming the re
 - **Working environment decided:** VS Code as the editor, Jupyter notebooks (.ipynb) opened
   INSIDE VS Code (not classic browser Jupyter). Same cell-by-cell style. Note for beginner:
   Jupyter is the notebook *format*; VS Code is the *editor* it runs inside — they work together.
+
+### 2026-07-22 — Session 1 (cont.): Data locked + folder built
+- **Dataset LOCKED: CFPB Consumer Complaint Database** (~7.8M complaints, 1M+ with narratives).
+  Verified live & free. Chosen over scraping (ToS/privacy risk) & generic review sets. Logged
+  reasoning in Learning Journal Entry 003.
+- **Automation confirmed possible & FREE** (3 levels): L1 Streamlit upload platform (headline),
+  L2 GitHub Actions scheduled refresh, L3 alerting (stretch). Logged in Journal Entry 004.
+- **Working model adopted (Rules 9 & 10):** Kiro builds files/notebooks/Git directly & fast;
+  we walk cell-by-cell; ask permission before each push; phase checkpoints + Journal logging.
+- **Created Project 1 folder structure:** project1_insight_engine/ with data/, notebooks/, app/,
+  outputs/, README.md, requirements.txt. Added repo-wide .gitignore (excludes .venv, data, secrets).
+- Phases defined: P1 Data → P2 Clean → P3 Engine → P4 Platform → P5 Automation(optional).
+- **Next step:** Phase 1 — download a slice of CFPB data & first look (build phase1_data.ipynb).
+
+### 2026-07-22 — Session 1 (cont.): Data acquired + lifecycle plan
+- **Data already on disk:** user downloaded the FULL CFPB file (8.5 GB, all 16 fields incl.
+  narrative) to C:\Users\Lenovo\Downloads\PROJECTS\complaints.csv\complaints.csv. This bypasses
+  the earlier API/download 403 blocks entirely.
+- **Key finding:** file is oldest-first; first 100k rows only 0.7% have narratives (old 2011-12
+  complaints predate narrative publishing). Lesson: never judge data from the first chunk → full
+  chunked scan needed. (Too big for RAM → chunked processing.)
+- **Scope decision (pending confirmation):** start with ONE product (recommended: Credit card),
+  recent years, narratives only — coded so product/dates are configurable → generalizes to other
+  products. One product first = sharp, defensible themes; reuse engine for others as bonus.
+- **DATA LIFECYCLE PLAN (important):** treat 8.5 GB as raw ore. Scan once → extract small clean
+  slice (few hundred MB) → verify → THEN delete the 8.5 GB original to reclaim space. Safe because
+  CFPB data is public & permanently re-downloadable. All project work runs on the small slice only,
+  never the 8.5 GB file. (8.5 GB = only ~1.3% of 640 GB free, so no urgency, but no need to hoard.)
+- Built notebooks/scan_data.py (memory-safe chunked profiler). Next: run it for the true data picture.

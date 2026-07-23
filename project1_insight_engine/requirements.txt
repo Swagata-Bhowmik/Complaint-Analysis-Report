@@ -1,0 +1,12 @@
+# Project 1 — Insight Engine — Python dependencies
+# Install with:  pip install -r requirements.txt
+# Pinned loosely (>=) so pip resolves compatible versions for Python 3.13.
+# We will add libraries phase-by-phase as we actually use them (so nothing is installed blindly).
+
+# --- Phase 1: data handling & exploration ---
+pandas>=2.2
+numpy>=1.26
+matplotlib>=3.8
+seaborn>=0.13
+jupyter>=1.0
+ipykernel>=6.29
