@@ -1,0 +1,10 @@
+# Streamlit theme — light olive-green on white for readability.
+[theme]
+primaryColor = "#6B8E23"             # olive green accent (buttons, highlights)
+backgroundColor = "#FFFFFF"           # clean white background
+secondaryBackgroundColor = "#F2F5E9" # soft olive tint for cards/sidebar
+textColor = "#2E3320"                 # dark olive-charcoal text
+font = "sans serif"
+
+[server]
+headless = true

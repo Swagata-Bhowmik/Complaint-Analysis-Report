@@ -1,12 +1,25 @@
-# Project 1 — Insight Engine — Python dependencies
-# Install with:  pip install -r requirements.txt
-# Pinned loosely (>=) so pip resolves compatible versions for Python 3.13.
-# We will add libraries phase-by-phase as we actually use them (so nothing is installed blindly).
+# Project 1 — Insight Engine — Python dependencies (Python 3.13)
+# Install:  pip install -r requirements.txt
 
-# --- Phase 1: data handling & exploration ---
+# --- data & notebooks ---
 pandas>=2.2
 numpy>=1.26
+pyarrow>=17
 matplotlib>=3.8
 seaborn>=0.13
 jupyter>=1.0
 ipykernel>=6.29
+
+# --- NLP engine ---
+sentence-transformers>=3.0
+scikit-learn>=1.5
+vaderSentiment>=3.3
+
+# --- LLM theme naming ---
+google-genai>=1.0
+python-dotenv>=1.0
+
+# --- app ---
+streamlit>=1.40
+plotly>=5.24
+openpyxl>=3.1
