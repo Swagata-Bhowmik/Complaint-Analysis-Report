@@ -468,3 +468,32 @@ JSON {name, description}. Fallback to keyword-name if a call fails. Key read saf
 available models rather than hard-code. Free tier has rate limits (429) -> pace calls (sleep) and
 add a fallback. Some themes overlapped (fraud spread across 3 clusters) -> note honestly; could
 reduce K or merge.
+
+## Entry 014 — Scaling to the full 112k (more data = cleaner themes)
+**Date:** 2026-07-22 · **Context:** Project 1, Phase 3 scaled to full dataset
+
+**What we did:** Ran the full pipeline on ALL 112,481 complaints (embeddings ~75 min on CPU, then
+clustering + severity + priority + LLM naming in a few minutes).
+
+**Key finding (great interview point):** With 6x more data than the sample, the themes separated
+MORE CLEANLY. In the 18k sample, "fraud" spread messily across ~3 overlapping clusters. In the
+full 112k, they became distinct, sensible categories: Unauthorized Charges, Identity Theft,
+Unauthorized Applications, Account Closures & Fraud. Lesson: more data -> more stable, reliable
+clusters (KMeans centroids are estimated from more points, so groupings are less noisy).
+
+**Final top problems (112k):** #1 Unauthorized Charges & Fraud (13.4% vol, severity 0.78 - most
+common AND most severe), #2 Billing/Merchant Disputes, #3 Inaccurate Credit Reporting, #4 Payment
+Processing errors, #5 Unauthorized Applications, #6 Identity Theft...
+
+**Interview angle:**
+- Q: "Did your results change at scale?" A: "Yes - on the full 112k the clusters were cleaner and
+  more distinct than on an 18k sample; fraud sub-types that overlapped in the sample separated
+  properly. More data reduced clustering noise. The business headline stayed consistent: fraud and
+  disputes dominate."
+- Q: "How did you make the big embedding job practical?" A: "Computed embeddings once (~75 min),
+  saved them to disk, then all downstream analysis reloads them in seconds - separating the
+  expensive step from the fast, iterative analysis."
+
+**Mistakes / gotchas:** Running a 75-min job as one script is risky; we split embedding (save) from
+analysis so a failure downstream never wastes the expensive step. Ran heavy jobs in the user's own
+terminal (Kiro's tool interrupts long runs).

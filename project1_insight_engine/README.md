@@ -34,7 +34,7 @@ Python · pandas · sentence-transformers · scikit-learn / HDBSCAN · an LLM (G
 ## Project phases
 - **Phase 1 — Data:** get the data, understand it, first look. ✅
 - **Phase 2 — Clean:** clean & prepare the complaint text. ✅
-- **Phase 3 — Engine:** embed → cluster → name → rank (the core NLP). ✅ (on 18k sample)
+- **Phase 3 — Engine:** embed → cluster → name → rank (the core NLP). ✅ (full 112k)
 - **Phase 4 — Platform:** the Streamlit upload app + dashboard. ⬜
 - **Phase 5 — Automation:** scheduled auto-refresh (optional). ⬜
 

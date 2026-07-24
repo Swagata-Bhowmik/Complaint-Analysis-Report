@@ -579,3 +579,52 @@ My compute is: [FILL IN]. Let's build Project [X] — start by confirming the re
 - Journal entries 011 (embeddings+clustering), 012 (severity/priority), 013 (LLM naming) added.
 - **NEXT:** (a) Swagata reviews phase3_engine.ipynb + push Phase 3; (b) scale to 112k later;
   (c) Phase 4 — Streamlit upload app.
+
+
+## FINAL-DELIVERABLE REQUIREMENTS (locked 2026-07-22) — build these near the END, in one go
+
+### Rule 14 — The showcase teaching NOTEBOOK (a real .ipynb, self-contained)
+At the end, produce ONE polished Jupyter Notebook that teaches the entire project so that reading
+it alone explains everything (no external lookup needed). Requirements:
+- Beautiful, colorful section headers with emojis; clear visual structure.
+- EVERY cell has an in-depth explanation ABOVE it covering: what the code does, what each TERM
+  means, what each PARAMETER does (both from a coding AND a theory perspective).
+- EVERY output (number, table, graph, example) has an interpretation: what it means, why it matters.
+- Deep theory woven in (not shallow) — enough to defend any question in an interview.
+- It must read like a guided story from start to finish.
+
+### Rule 15 — Deep theory + interview readiness (no shallow explanations)
+- For every model/tool/algorithm used (embeddings, transformers, MiniLM, KMeans, TF-IDF, PCA,
+  VADER/sentiment, LLM/Gemini, Streamlit, etc.), maintain IN-DEPTH theory: how it works, why we
+  chose it, alternatives, parameters, strengths/limits, and likely interview Q&A.
+- Goal: Swagata can answer ANY in-depth question in ANY scenario. Keep building this in the
+  Learning Journal + a dedicated theory deep-dive as we go.
+
+### Rule 16 — Explanations ALWAYS accompany outputs (app included)
+- Nothing is delivered as a bare output. The APP must return results WITH explanations: not just
+  "here are the top problems" but how it was computed, when, what it means, and what to do.
+- "We don't just say we built this — we explain how, why, and what it means." Never skip this.
+
+### Rule 17 — The FINAL interactive storytelling DASHBOARD (build ONCE, at the very end)
+- After EVERYTHING else is done, build an extremely interactive dashboard that walks a viewer
+  through the whole project like a presentation/storyline:
+  - Multiple clear TABS (e.g. Problem, Data, Cleaning, Engine, Results, App, Automation).
+  - Visually appealing: colors, interactivity, clear bullet-point format.
+  - Anyone landing on it understands the whole story end-to-end.
+- BUILD THIS IN ONE GO, only after Kiro ASKS and Swagata approves. Do not start it early or piece-meal.
+
+### Standing reminder
+- Re-read PART 2 (Project 1 plan) regularly to ensure we cover everything promised. This must NOT
+  end up a simple project — depth, rigor, explanation, app, and automation are all required.
+
+### 2026-07-22 — Session 1 (cont.): PHASE 3 SCALED TO FULL 112k ✅
+- Ran scale_embeddings.py (embedded all 112,481, ~75 min, saved full_embeddings.npy 165MB) +
+  analyze_full.py (cluster+severity+priority+LLM naming). Outputs: theme_final_full.csv,
+  theme_sizes_full.png, priority_matrix_full.png, full_clustered.parquet.
+- Full-scale top problems: #1 Unauthorized Charges & Fraud (13.4%, sev 0.78), #2 Billing/Merchant
+  Disputes (12.7%), #3 Inaccurate Credit Reporting, #4 Payment Processing errors, #5 Unauthorized
+  Applications, #6 Identity Theft. Themes CLEANER than 18k sample (fraud sub-types separated).
+- Journal Entry 014 added. Phase 3 now complete on full data.
+- **NEXT:** (a) push full-scale results; (b) Phase 4 — Streamlit upload app (self-explaining
+  outputs per Rule 16); (c) Phase 5 automation. Then (end, one go, on approval): showcase teaching
+  notebook (Rule 14) + interactive storytelling dashboard (Rule 17).
