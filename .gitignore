@@ -10,6 +10,8 @@ project1_insight_engine/data/
 *.csv
 *.zip
 *.parquet
+# Exception: small public demo sample shipped with the deployed app (400 rows, ~130KB).
+!project1_insight_engine/app/sample_complaints_for_demo.csv
 
 # --- Notebook checkpoints ---
 .ipynb_checkpoints/

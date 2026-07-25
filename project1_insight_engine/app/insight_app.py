@@ -314,9 +314,21 @@ def page_analyze():
     st.markdown('<div class="hero"><h1>📤 Analyze Your Own Complaints</h1>'
                 '<p>Upload a CSV/Excel of complaints → get an instant ranked breakdown. '
                 '(Free demo analyses up to 1,500 rows.)</p></div>', unsafe_allow_html=True)
+
+    st.markdown("### 🧪 No file handy? Try the sample")
+    st.caption("400 real CFPB credit-card complaints (never seen by the results in the "
+               "📊 Results tab) — a genuine way to see the tool work end-to-end.")
+    try:
+        with open(os.path.join(HERE, "sample_complaints_for_demo.csv"), "rb") as f:
+            st.download_button("⬇️ Download sample complaints file (CSV)", f,
+                               "sample_complaints_for_demo.csv", "text/csv")
+    except FileNotFoundError:
+        pass
+    st.markdown("---")
+
     up = st.file_uploader("Upload complaints file (CSV or Excel)", type=["csv", "xlsx"])
     if up is None:
-        st.info("👆 Upload a file with a column of complaint text to begin.")
+        st.info("👆 Upload a file with a column of complaint text to begin — or grab the sample above.")
         return
     df = pd.read_csv(up) if up.name.endswith(".csv") else pd.read_excel(up)
     st.success(f"✅ Loaded {len(df):,} rows.")
