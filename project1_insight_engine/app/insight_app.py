@@ -69,9 +69,19 @@ GREENS = ["#DCE8B8", "#B5CC7A", "#8FB04E", "#6B8E23", "#4F6B1C", "#3B5015"]
 
 @st.cache_data(show_spinner=False)
 def load_full_results():
-    themes = pd.read_csv(os.path.join(OUT, "theme_final_full.csv")).sort_values("rank")
-    clustered = pd.read_parquet(os.path.join(DATA, "full_clustered.parquet"))
-    return themes, clustered
+    """Load the compact deploy bundle (works locally AND on hosted GitHub deploy).
+    Returns (themes_df, total_complaints, examples_by_theme)."""
+    import json
+    with open(os.path.join(HERE, "deploy_data.json"), encoding="utf-8") as f:
+        bundle = json.load(f)
+    rows, examples = [], {}
+    for t in bundle["themes"]:
+        rows.append({"rank": t["rank"], "theme": t["theme"], "name": t["name"],
+                     "description": t["description"], "share_%": t["share_pct"],
+                     "severity": t["severity"], "priority": t["priority"]})
+        examples[t["theme"]] = t["examples"]
+    themes = pd.DataFrame(rows).sort_values("rank")
+    return themes, int(bundle["total_complaints"]), examples
 
 @st.cache_resource(show_spinner=False)
 def load_model():
@@ -108,7 +118,7 @@ def chart_ranked_bars(themes):
     return fig
 
 def chart_treemap(themes):
-    fig = px.treemap(themes, path=["name"], values="count", color="severity",
+    fig = px.treemap(themes, path=["name"], values="share_%", color="severity",
                      color_continuous_scale=GREENS, custom_data=["share_%", "severity", "priority"])
     fig.update_traces(hovertemplate="<b>%{label}</b><br>Volume: %{customdata[0]}%<br>"
                                      "Severity: %{customdata[1]}<br>Priority: %{customdata[2]}<extra></extra>",
@@ -142,9 +152,9 @@ def page_home():
                 'automatically tells you the <b>top problems to fix</b> — ranked by how common and '
                 'how serious they are. Built end-to-end on real public data.</p></div>',
                 unsafe_allow_html=True)
-    themes, clustered = load_full_results()
+    themes, total, examples = load_full_results()
     c1, c2, c3, c4 = st.columns(4)
-    card(c1, "Complaints analyzed", f"{len(clustered):,}")
+    card(c1, "Complaints analyzed", f"{total:,}")
     card(c2, "Themes discovered", f"{themes['theme'].nunique()}")
     card(c3, "Raw data processed", "8.5 GB")
     card(c4, "#1 problem", themes.iloc[0]["name"], small=True)
@@ -271,7 +281,7 @@ def page_results():
     st.markdown('<div class="hero"><h1>📊 The Results</h1>'
                 '<p>The top credit-card problems, discovered automatically from 112,481 complaints.</p></div>',
                 unsafe_allow_html=True)
-    themes, clustered = load_full_results()
+    themes, total, examples = load_full_results()
     st.markdown("### 📈 Visualize")
     style = st.radio("Chart style:", ["Ranked bars", "Treemap (boxes)", "Priority matrix"], horizontal=True)
     if style == "Ranked bars":
@@ -295,9 +305,9 @@ def page_results():
     st.markdown("### 🔎 Read real complaints behind a theme")
     pick = st.selectbox("Choose a theme:", themes["name"].tolist())
     tid = int(themes[themes["name"] == pick].iloc[0]["theme"])
-    for i, e in enumerate(clustered[clustered["theme"] == tid]["Consumer complaint narrative"].head(3), 1):
+    for i, e in enumerate(examples.get(tid, []), 1):
         with st.expander(f"Example {i}"):
-            st.write(str(e)[:600] + "…")
+            st.write(str(e) + "…")
 
 
 def page_analyze():

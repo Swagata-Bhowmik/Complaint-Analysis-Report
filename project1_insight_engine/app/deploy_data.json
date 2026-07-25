@@ -1,0 +1,174 @@
+{
+  "total_complaints": 112481,
+  "n_themes": 12,
+  "themes": [
+    {
+      "rank": 1,
+      "theme": 0,
+      "name": "Unauthorized Charges and Fraud Disputes",
+      "description": "Complaints regarding fraudulent transactions, improper dispute handling, and suspicious account activity.",
+      "share_pct": 13.4,
+      "severity": 0.776,
+      "priority": 10.4,
+      "examples": [
+        "Chase is using many tactics to steal money from consumers and they must stop. I would like to bring up the 2 deceitful ways Chase basically lied to me and took my money. 1 ) CHASE PAY OVER TIME IS A SCAM. NOBODY SHOULD SIGN UP FOR IT. I made the mistake of signing up after making a large purchase of over a XXXX. Contrary to the terms of the offer or plan, chase did not break my payments into small",
+        "To Whom It XXXX Concern, I am filing this formal complaint regarding Goldman Sachs Bank USA XXXX  the Apple Card dispute teams improper handling XXXX  denial of my fraud dispute involving an unauthorized {$1500.00} XXXX XXXX transaction on XX/XX/XXXX. \nThis case reflects not only an unreasonable denial, but also a failure XXXX  take timely action XXXX  mitigate fraud after I reported it immediatel",
+        "I received a letter today from Bank of America stating to please call right away at XXXX due to detected suspicious activity on my credit card. I was suspicious about this letter because I was not familiar with the account ending in XXXX and I don't remember having a Bank of America credit card. I did a quick check of my credit cards that I normally use on a day-to-day basis and none of these had "
+      ]
+    },
+    {
+      "rank": 2,
+      "theme": 2,
+      "name": "Billing and Merchant Charge Disputes",
+      "description": "Complaints regarding unauthorized charges, overbilling, undelivered goods, and denied refund claims.",
+      "share_pct": 12.7,
+      "severity": 0.534,
+      "priority": 6.78,
+      "examples": [
+        "In XX/XX/year>, XXXX, through XXXX, applied charges to my account that were higher than what I originally agreed to and used. I noticed the overcharges about four months later and immediately disabled autopay through my bank and disputed the charges with both companies. XXXX has cut off all home security system features and monitoring services, claiming payment is due, but they never provided a wr",
+        "I was charged {$75.00} on XX/XX/year> for a physical item I never received. XXXX has locked my account and declined my appeal. I am requesting a billing dispute under the Fair Credit Billing Act. I have proof of order and the charge date.",
+        "XXXX XX/XX/year>, I purchased a XXXX XXXX XXXX XXXX XXXX Premium Collection for {$620.00} from XXXX using a Klarna virtual XXXX-time card. \n\nThe package was shipped via XXXX ( Tracking # XXXX ) XXXX  marked as \" XXXX XXXX '' at the XXXX XXXX. However, I did not authorize this pickup, XXXX  the item was stolen by an unauthorized XXXX  party. \n\nWhen I contacted XXXX XXXX  resolve the issue, they res"
+      ]
+    },
+    {
+      "rank": 3,
+      "theme": 5,
+      "name": "Inaccurate Credit Reporting and Discrepancies",
+      "description": "Complaints regarding incorrect account details and non-compliant reporting on consumer credit reports.",
+      "share_pct": 8.8,
+      "severity": 0.462,
+      "priority": 4.07,
+      "examples": [
+        "I am submitting this complaint regarding serious violations involving my Chase credit card account, including denial of account access, failure to provide required billing statements, and inaccurate credit reporting. \n\n\nXXXX. Account Access Restriction Material Interference On or around XX/XX/XXXX, Chase restricted my access to my credit card account and subsequently closed the account. This actio",
+        "To Whom It May Concern, I am filing this complaint regarding inaccurate, harmful, and potentially non-compliant reporting of a credit card account on my credit report. \n\nCreditor : XXXX XXXX XXXX UnionAccount Type : Credit CardReported Balance : Approximately XXXX  XXXX Limit : XXXX XXXXXXXX : Reported Late / Over Limit This account is currently being reported as exceeding the credit limit and del",
+        "XX/XX/XXXX : agreed with XXXX XXXX ( XXXX ) to purchase $ XXXX furniture, including terms to get 10 % cash back if I open Capitol One ( C1 ) card. Submitted Capitol one application. approved by Capitol One for $ XXXX. \nXX/XX/XXXX : Submitted verbal request to C1 via phone for increase to $ XXXX, to enable original net cost agreement with XXXX. C1 requested specifics docs. \nXX/XX/XXXX : provided C1"
+      ]
+    },
+    {
+      "rank": 4,
+      "theme": 8,
+      "name": "Payment Processing and Balance Errors",
+      "description": "Issues related to unauthorized, misdirected, duplicate, or delayed credit card payments and balance transfers.",
+      "share_pct": 11.2,
+      "severity": 0.344,
+      "priority": 3.85,
+      "examples": [
+        "In XXXX an authorized payment of {$620.00} was attempted multiple times to be pulled out of my checking account. I called the company and closed my account after they told me they couldnt tell me who was processing the payment because it was through a self service website. My bank returned the charge and covered the {$25.00} fee. Then on XX/XX/XXXX another unauthorized payment of {$560.00} was rem",
+        "On XX/XX/year>, I entered my XXXX XXXX account number for a {$3400.00} balance transfer. I did not select XXXX, nor did I enter any XXXX address or information. \nXXXX XXXX is issued by XXXX XXXX. Your system generated the payee information and redirected the payment to XXXX. \nThis constitutes a misapplied balance transfer due to creditor identification error. \nI am requesting : A copy of the negot",
+        "We accidentally made a double payment of {$15000.00} on a credit card on XX/XX/year>XXXX  and requested a refund of the overpayment within 3 days after this date. Our understanding is that, under Title 12, Chapter X, 1026.11, the payment refund is required to be issued within 7 days. We followed up again a week later and the check was said to be issued after the XXXX day following our request. It "
+      ]
+    },
+    {
+      "rank": 5,
+      "theme": 7,
+      "name": "Unauthorized Credit Card Applications and Openings",
+      "description": "Complaints regarding credit cards opened or applied for without the customer's knowledge or consent.",
+      "share_pct": 9.7,
+      "severity": 0.373,
+      "priority": 3.62,
+      "examples": [
+        "Got a target card in the mail never applies for kne",
+        "Someone has stolen my card that I ordered from XXXX XXXX. I was wondering why I never received my card and I went to check my application and it says I used all my credit limit but I never even received a card.",
+        "Synchrony Bank silently enrolled me in an add-on product called \" Payment Security '' ( also called \" Payment Security Debt Cancellation Program, '' appearing on every statement as the line item \" XXXX XXXX XXXX XXXX '' ) on my XXXX XXXX XXXX SYNCB store credit card. The account was opened in XX/XX/XXXX. I have no record of consenting to enroll. I have no enrollment confirmation email. I do not re"
+      ]
+    },
+    {
+      "rank": 6,
+      "theme": 3,
+      "name": "Identity Theft and Fraudulent Accounts",
+      "description": "Issues related to fraudulent accounts, identity theft, and disputed credit report information.",
+      "share_pct": 6.1,
+      "severity": 0.556,
+      "priority": 3.39,
+      "examples": [
+        "On XX/XX/year>, I was approved for a XXXX line of credit issued by Synchrony. I made two small purchases ( XXXX XXXX and XXXX, under {$100.00} ). Within 24 hours, Synchrony closed the account due to an error, falsely linking me to a fraudulent account. They later confirmed in writing that was incorrect. I never received a card, account number, or statements despite multiple requests. I paid off my",
+        "After reviewing my recent consumer credit report, I noticed that the following account is no longer appearing on my credit file. This account is legitimate, authorized, and belongs to me. I opened and maintained this account, and its removal has negatively impacted my credit profile due to the loss of payment history, account age, and available credit. \nI recently submitted a dispute concerning sp",
+        "After reviewing my recent consumer credit report, I noticed that the following account is no longer appearing on my credit file. This account is legitimate, authorized, XXXX  belongs XXXX  me. I opened XXXX  maintained this account, and its removal has negatively impacted my credit profile due XXXX  the loss of payment history, account age, XXXX  available credit. \nI recently submitted a dispute c"
+      ]
+    },
+    {
+      "rank": 7,
+      "theme": 4,
+      "name": "Merchant Disputes and Poor Communication",
+      "description": "Customer issues regarding unfulfilled merchant resolutions, unresponsive companies, and billing discrepancies.",
+      "share_pct": 8.6,
+      "severity": 0.373,
+      "priority": 3.21,
+      "examples": [
+        "On XX/XX/year>, Adobe replied only to say they would keep the case open and restated my next billing date as XX/XX/year>, without addressing any of the issues raised in my complaint, including the unauthorized plan change, the attempted {$70.00} upsell, the inconsistent pricing, or the contradictory explanations previously provided.",
+        "I am filing this complaint regarding XXXX # XXXX placed with Dillards. The merchant is asserting that the merchandise was delivered XXXX  my home, but I did not receive the package, XXXX  the proof of delivery provided does not demonstrate delivery XXXX my residence. \n\nThe delivery confirmation relies on XXXX XXXX  photos that do not depict my home XXXX  do not establish delivery XXXX  my address.",
+        "purchase a bed at XXXX with the sales person send me the wrong bed slot store refuse to make the exchange. gave me a store credit for only XXXX  days and refuse to give the credit back at the credit card. went to the store before the XXXX  days to purchase a pillow or something close to the amount, the store credit was to purchase something that has to be deliver because XXXX  i didnt want to pay "
+      ]
+    },
+    {
+      "rank": 8,
+      "theme": 10,
+      "name": "Unexpected Account Closures and Fraud",
+      "description": "Customers report unexpected account closures by Capital One following fraud disputes or inquiries.",
+      "share_pct": 5.7,
+      "severity": 0.444,
+      "priority": 2.53,
+      "examples": [
+        "Timeline of Events : XX/XX/year> : I opened and began actively using my Quicksilver account in good standing. \nXX/XX/year> : My new SavorOne card was delivered. Because the account was brand new, a first statement had not yet generated, and no minimum payment was due. \nXX/XX/year> : I made a valid payment of {$280.00} toward my Quicksilver balance. The funds were fully available in my checking acc",
+        "hi, Capital One close all 4 of my credit cards for no reason. I call them to inform them that someone was adding authorize users to my master card account and then they close all four of my accounts with them. I had never been late and had one of the account for 20 years. They cause me to lose by reward points with 2 of the cards and my credit score to go down my over XXXX points.",
+        "I am disputing unauthorized activity connected to my Capital One account. The bank is attempting to hold me responsible for transactions and/or activity that I did not authorize. \n\nCapital One requested bank statements from an outside account that I do not own or control. Because the account is not mine, I can not provide those documents. Despite explaining this, my account remains restricted and "
+      ]
+    },
+    {
+      "rank": 9,
+      "theme": 11,
+      "name": "Unauthorized or Improper Account Closure",
+      "description": "Complaints regarding unexpected account closures or banks failing to correctly report closed account statuses.",
+      "share_pct": 6.7,
+      "severity": 0.311,
+      "priority": 2.08,
+      "examples": [
+        "I had an account with US Bank credit card. I made all my payments on time. I close the account. Theyre still reporting that the account is open XXXX  that XXXX had an account with US Bank credit card. I made all my payments on time I close the account theyre still reporting the account is open XXXX  that XXXX derogatory on my payments my XXXX score. It was gone down XXXX points. The account has be",
+        "\" XXXX \" credit App I Never received a credit card after dumping more than {$80.00} into services. I complained to customer support about giving them {$80.00} and not receiving the card and they closed my account without my permission. After reporting my closed account to the credit bureaus they then turned around and opened another account without my permission forcing me to close another account",
+        "I clearly followed the close account process on the atlas app, stated to the customer service representative that i did not want to continue keeping the account open with the multiple offers they presented it with, and ordered them to close the account again. They sent more messages that i didnt see, and since i didnt AGAIN express my wish to close the account, they kept it open. I only found out "
+      ]
+    },
+    {
+      "rank": 10,
+      "theme": 9,
+      "name": "High Interest Rates and Fees",
+      "description": "Complaints regarding high interest rates, predatory loan terms, and unaffordable monthly payments.",
+      "share_pct": 8.2,
+      "severity": 0.217,
+      "priority": 1.78,
+      "examples": [
+        "The account is closed ; however, I am working hard to pay off the bill. I am required to pay {$320.00} monthly, with a usury interest rate that adds approximately {$200.00} per month to the monthly payment. I requested a reduction on the monthly payment, and the Company refused. The Company stated that they can not reduce the monthly payment and stated that my only option is to default and then th",
+        "On XX/XX/year>, my friend XXXX XXXX and my self XXXX XXXX we both went to the XXXX XXXX XXXX XXXX XXXX XXXX XXXX  XXXX, MN. My friend helped me translate whenever the manager spoke, since I don't speak fluent English. XXXX XXXX XXXX XXXX us that we had to apply for credit if we wanted to finance the bed XXXX and I gave her my correct information. and she told me that XXXX was approved for {$4.00} ",
+        "GoodLeap has extremely predatory loan rates and sign up tactics when consumers are at risk and vulnerable. GoodLeap focuses on home improvement loans, in my case a loan for a new furnace ( as ours quit in XXXX degree weather with a premie newborn in the house and raising carbon monoxide levels ). The loan was the only option financially for us. Two years paying ( {$200.00} ) monthly on this loan a"
+      ]
+    },
+    {
+      "rank": 11,
+      "theme": 6,
+      "name": "Disputing Inaccurate Late Payment Reporting",
+      "description": "Customers disputing credit bureau reporting of late payments due to processing delays, closed accounts, or missing bills.",
+      "share_pct": 3.7,
+      "severity": 0.292,
+      "priority": 1.08,
+      "examples": [
+        "Dear Sir/Madam, I am writing to formally dispute a late payment that is being reported on my credit file for the account referenced above. I believe that this information is inaccurate and should be removed from my credit report. \nThe account in question was closed in XXXX and is showing as XXXX late '' after being closed and paid in full as recent as XX/XX/XXXX. I have reviewed my records, and I ",
+        "I've complained to XXXX XXXX  for years about when I make payment on or before the XXXX of each month, they never process my payment on the due date. \n\nThey wait until the XXXX day to process my credit card payment, therefore making it a late payment and it's been affecting my credit score.\n\nThe last I checked, if a payment is made before the end of the business day, payment should be processed im",
+        "I had this store credit card for XXXX  years and was late on one payment in XX/XX/2023. I never received the bill at home for this credit card and thus was late paying it. I carried the card for XXXX  years and made this missed payment as soon as I received information that it was late. I have attempted to contact the credit card agency 2x and issue a dispute through my credit report asking them d"
+      ]
+    },
+    {
+      "rank": 12,
+      "theme": 1,
+      "name": "Rewards and Promotional Offer Disputes",
+      "description": "Complaints regarding misleading promotional offers, uncredited bonus points, and misunderstood reward redemption terms.",
+      "share_pct": 5.2,
+      "severity": 0.188,
+      "priority": 0.98,
+      "examples": [
+        "The credit card was advertised as offering discounts on cruises, which I reasonably understood to mean direct or exclusive price reductions. After signing up, I learned the benefit is only redeeming earned points toward purchases, which is not the same as a discount. I believe this marketing is misleading and influenced my decision to apply.",
+        "Subject : Formal Complaint regarding unfair promotional offer terms and service failure - Account Ending in XXXX I am writing to formally report a service failure and unfair business practice by Citibank. \n\nTimeline of Events : XX/XX/year> : Applied for a credit card with a promotional offer : XXXX bonus points after spending {$6000.00} within the first XXXX months. \n\nXXXX XX/XX/year> : The card w",
+        "I am submitting this complaint against Synchrony Bank regarding the failure to properly credit and track rewards points on my Lowe 's Synchrony XXXX XXXX card following a card transition in XX/XX/year>. \n\nBACKGROUND : I previously held a Lowe's-branded XXXX XXXX card through which I earned and redeemed rewards points consistently over several years, converting them to Lowe 's gift cards at approxi"
+      ]
+    }
+  ]
+}
