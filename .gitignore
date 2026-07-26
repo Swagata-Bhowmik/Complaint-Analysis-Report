@@ -4,6 +4,11 @@ venv/
 __pycache__/
 *.pyc
 
+# --- Other portfolio projects (each gets its OWN separate repo — never push here) ---
+project2_ride_demand_forecasting/
+project3_persuadables/
+project4_grounded_rag/
+
 # --- Data files (too large / not ours to redistribute; keep repo light) ---
 # We keep data locally but do NOT push raw datasets to GitHub.
 project1_insight_engine/data/
@@ -34,3 +39,6 @@ _github_setup/
 MASTER_PROJECT_TEMPLATE.md
 RESUME_MASTER.md
 WORKING_METHOD.md
+PROJECT2_BRIEF_*.md
+PROJECT3_BRIEF_*.md
+PROJECT4_BRIEF_*.md
