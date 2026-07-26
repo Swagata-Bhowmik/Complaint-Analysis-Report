@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Insight Engine — Mining Customer Complaints</title>
+<script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+<style>
+  :root{
+    --olive:#6B8E23; --olive-d:#556B2F; --olive-l:#8FB04E;
+    --bg:#FFFFFF; --card:#F7FAEF; --border:#DDE7C4; --tint:#F2F5E9;
+    --ink:#2E3320; --ink-soft:#55603F; --muted:#7A8560;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0; font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+       color:var(--ink); background:var(--bg); font-size:16px; line-height:1.55;}
+  a{color:var(--olive-d);}
+  /* layout */
+  .wrap{display:flex; min-height:100vh;}
+  .side{width:250px; background:var(--tint); border-right:1px solid var(--border);
+        padding:22px 16px; position:sticky; top:0; height:100vh; overflow-y:auto;}
+  .side h2{font-size:1.15rem; color:var(--olive-d); margin:0 0 4px 0;}
+  .side .tag{font-size:.8rem; color:var(--muted); margin-bottom:18px;}
+  .nav a{display:block; padding:9px 12px; border-radius:9px; color:var(--ink-soft);
+         text-decoration:none; font-size:.95rem; margin-bottom:3px; cursor:pointer;}
+  .nav a:hover{background:#EAF0D9;}
+  .nav a.active{background:var(--olive); color:#fff; font-weight:600;}
+  .main{flex:1; padding:34px 44px; max-width:1050px;}
+  /* hero */
+  .hero{background:linear-gradient(120deg,#7C9A3E 0%,#6B8E23 55%,#556B2F 100%);
+        padding:26px 32px; border-radius:16px; margin-bottom:24px; color:#fff;
+        box-shadow:0 8px 22px rgba(107,142,35,.28);}
+  .hero h1{margin:0 0 6px 0; font-size:1.9rem;}
+  .hero p{margin:0; color:#F2F7E4; font-size:1.03rem;}
+  /* cards */
+  .row{display:flex; gap:14px; flex-wrap:wrap; margin:18px 0;}
+  .card{background:var(--card); border:1px solid var(--border); border-radius:14px;
+        padding:16px 20px; flex:1; min-width:150px; box-shadow:0 3px 10px rgba(85,107,47,.08);}
+  .card .lbl{font-size:.75rem; color:var(--muted); text-transform:uppercase; letter-spacing:.5px;}
+  .card .big{font-size:1.7rem; font-weight:800; color:var(--olive-d); margin-top:4px;}
+  .card .big.sm{font-size:1.05rem;}
+  .step{background:var(--card); border:1px solid var(--border); border-radius:14px;
+        padding:16px 22px; margin-bottom:14px;}
+  .step .t{font-size:1.1rem; font-weight:800; color:var(--olive-d); margin-bottom:6px;}
+  blockquote{border-left:4px solid var(--olive); background:var(--tint);
+             padding:10px 16px; border-radius:6px; color:var(--ink-soft); margin:14px 0;}
+  h3{color:#3E4A22; margin-top:26px;}
+  .problem{background:var(--card); border-left:6px solid var(--olive); border-radius:12px;
+           padding:14px 20px; margin-bottom:11px;}
+  .problem .rank{color:var(--olive); font-weight:800;}
+  .problem .name{font-size:1.1rem; font-weight:700; margin:2px 0 5px 0;}
+  .problem .desc{color:var(--ink-soft); font-size:.93rem; margin-bottom:8px;}
+  .badge{display:inline-block; padding:3px 11px; border-radius:20px; font-size:.78rem;
+         font-weight:700; margin-right:6px;}
+  .b-vol{background:#E3ECF7; color:#2C5C9E;} .b-sev{background:#F7E3E3; color:#B03A3A;}
+  .b-pri{background:#EAF0D9; color:var(--olive-d);}
+  .pill{display:inline-block; background:#EAF0D9; color:var(--olive-d); padding:4px 12px;
+        border-radius:16px; font-size:.85rem; font-weight:600; margin:3px 4px 3px 0;}
+  .tool{background:#fff; border:1px solid var(--border); border-left:5px solid var(--olive-l);
+        border-radius:10px; padding:11px 16px; margin-bottom:9px;}
+  .tool b{color:var(--olive-d);}
+  section{display:none;}
+  section.active{display:block; animation:fade .25s ease;}
+  @keyframes fade{from{opacity:0; transform:translateY(4px);} to{opacity:1; transform:none;}}
+  .banner{background:#EAF0D9; border:1px solid var(--border); border-radius:10px;
+          padding:10px 16px; font-size:.9rem; color:var(--ink-soft); margin-bottom:18px;}
+  @media(max-width:800px){ .wrap{flex-direction:column;} .side{width:100%; height:auto; position:static;}
+    .main{padding:22px;} }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="side">
+    <h2>🔍 Insight Engine</h2>
+    <div class="tag">Raw complaints → ranked problems to fix.</div>
+    <div class="nav" id="nav">
+      <a data-t="home" class="active">🏠 Home</a>
+      <a data-t="problem">🎯 The Problem</a>
+      <a data-t="data">🗂️ The Data</a>
+      <a data-t="cleaning">🧹 Cleaning</a>
+      <a data-t="engine">🧠 The AI Engine</a>
+      <a data-t="results">📊 Results</a>
+      <a data-t="tools">🛠️ Tools &amp; Tech</a>
+      <a data-t="learnings">🎓 Learnings</a>
+    </div>
+    <div style="margin-top:20px; font-size:.82rem; color:var(--muted);">
+      Pipeline:<br>🧠 Embeddings → 🧩 Clustering → ⚠️ Severity → 🏆 Priority → 🏷️ AI naming
+    </div>
+  </nav>
+  <div class="main">
+    <div class="banner">📄 This is the static (webpage) version of the dashboard. The full
+      interactive app with an upload-and-analyze mode is live on
+      <a href="https://complaint-insight-engine-swagata-bhowmik.streamlit.app" target="_blank">Streamlit&nbsp;↗</a>.</div>
+
+    <!-- HOME -->
+    <section id="home" class="active">
+      <div class="hero"><h1>🔍 Insight Engine</h1>
+        <p>An AI system that reads tens of thousands of real customer complaints and automatically
+        tells you the <b>top problems to fix</b> — ranked by how common and how serious they are.
+        Built end-to-end on real public data.</p></div>
+      <div class="row">
+        <div class="card"><div class="lbl">Complaints analyzed</div><div class="big">112,481</div></div>
+        <div class="card"><div class="lbl">Themes discovered</div><div class="big">12</div></div>
+        <div class="card"><div class="lbl">Raw data processed</div><div class="big">8.5 GB</div></div>
+        <div class="card"><div class="lbl">#1 problem</div><div class="big sm">Unauthorized Charges &amp; Fraud</div></div>
+      </div>
+      <div class="step"><div class="t">The idea</div>
+        Companies get thousands of complaints written in plain English. Nobody can read them all,
+        so they never learn what's really wrong. This tool reads them <b>for</b> you and produces a
+        clear, ranked list: <i>"here are the top problems, fix these first."</i></div>
+      <blockquote><b>Golden rule:</b> real public data only, no fabrication — every number here
+        traces back to a real complaint and can be defended step by step.</blockquote>
+    </section>
+
+    <!-- PROBLEM -->
+    <section id="problem">
+      <div class="hero"><h1>🎯 The Problem &amp; The Goal</h1><p>Why this project exists and what success looks like.</p></div>
+      <div class="step"><div class="t">😖 The pain</div>A bank or big company receives
+        <b>thousands of complaints every week</b> — double charges, fraud, app failures, rude service.
+        Reading them one-by-one is impossible, so the most valuable information — <i>what is actually
+        going wrong</i> — stays buried, and managers react only to whoever shouts loudest.</div>
+      <div class="step"><div class="t">🎯 The goal</div>Automatically answer three questions:
+        (1) What are people complaining about? (2) Which problems matter most (common × severe)?
+        (3) So what should we fix first?</div>
+      <div class="step"><div class="t">💼 Business value</div>Turning raw text into a ranked action
+        plan means fixing the <b>right</b> things first — saving money, reducing churn, improving trust.</div>
+    </section>
+
+    <!-- DATA -->
+    <section id="data">
+      <div class="hero"><h1>🗂️ The Data</h1><p>Real, public, and chosen carefully.</p></div>
+      <div class="row">
+        <div class="card"><div class="lbl">Source</div><div class="big sm">CFPB (US Govt)</div></div>
+        <div class="card"><div class="lbl">Full size</div><div class="big sm">17M rows / 8.5 GB</div></div>
+        <div class="card"><div class="lbl">Our scope</div><div class="big sm">112k credit-card</div></div>
+      </div>
+      <div class="step"><div class="t">📚 What we used</div>The <b>CFPB Consumer Complaint Database</b> —
+        a free, public U.S. government dataset of real complaints. The key field is the <b>narrative</b>:
+        the customer's own written story of what happened.</div>
+      <div class="step"><div class="t">🧭 Why this (and not scraping app reviews)</div>Scraping violates
+        platform terms, is unreliable, and raises privacy issues. <b>"Publicly visible" ≠ "safe to
+        bulk-collect."</b> CFPB is legal, large, and defensible.</div>
+      <div class="step"><div class="t">🔬 What profiling taught us</div>Narratives only exist from
+        <b>2015 onward</b>; the same product had <b>multiple labels</b> over the years; and we caught a
+        <b>silent bug</b> where dates were corrupted during extraction — a chart looked wrong, we
+        investigated, and fixed it. Proof you must sanity-check everything.</div>
+    </section>
+
+    <!-- CLEANING -->
+    <section id="cleaning">
+      <div class="hero"><h1>🧹 Cleaning the Text</h1><p>Remove noise without destroying meaning.</p></div>
+      <div class="row">
+        <div class="card"><div class="lbl">Before</div><div class="big">124,962</div></div>
+        <div class="card"><div class="lbl">Removed</div><div class="big">12,481</div></div>
+        <div class="card"><div class="lbl">After (clean)</div><div class="big">112,481</div></div>
+      </div>
+      <div class="step"><div class="t">🧯 Problems found</div>~12,000 duplicate complaints (inflate
+        counts); privacy masks everywhere (<code>XXXX</code>, <code>XX/XX/year&gt;</code>,
+        <code>{$70.00}</code>); two names for the same product.</div>
+      <div class="step"><div class="t">🧼 What we did</div>Removed duplicates, merged product labels,
+        and turned privacy masks into neat placeholders (<code>&lt;redacted&gt;</code>,
+        <code>&lt;date&gt;</code>, <code>&lt;money&gt;</code>) instead of deleting them — keeping
+        sentences readable. Original text kept too, for before/after auditability.</div>
+      <blockquote><b>Before:</b> "In XX/XX/year&gt;, XXXX applied charges higher than I agreed…"<br>
+        <b>After:</b> "In &lt;date&gt;, &lt;redacted&gt; applied charges higher than I agreed…"</blockquote>
+    </section>
+
+    <!-- ENGINE -->
+    <section id="engine">
+      <div class="hero"><h1>🧠 The AI Engine</h1><p>How the computer "reads" complaints and finds problems — in 5 steps.</p></div>
+      <div class="step"><div class="t">🧠 1 — Embeddings</div>Each complaint becomes a list of
+        <b>384 numbers</b> capturing its <b>meaning</b>, so similar complaints sit close together on a
+        "meaning-map". Tool: <b>sentence-transformers</b>, model <b>all-MiniLM-L6-v2</b>.</div>
+      <div class="step"><div class="t">🧩 2 — Clustering</div><b>KMeans</b> finds the crowds of dots on
+        that map — each crowd is a <b>theme</b>. We used K=12.</div>
+      <div class="step"><div class="t">⚠️ 3 — Severity</div>How <b>bad</b> is each problem? We score
+        negativity with <b>VADER</b> and flag high-stakes words (fraud, stolen, identity theft).</div>
+      <div class="step"><div class="t">🏆 4 — Priority</div><b>Priority = Volume × Severity</b> —
+        surfaces problems that are both common AND serious.</div>
+      <div class="step"><div class="t">🏷️ 5 — AI naming</div>An <b>LLM (Google Gemini)</b> reads each
+        theme's keywords + examples and gives it a clear human name.</div>
+      <div style="margin-top:10px;">
+        <span class="pill">TF-IDF → theme keywords</span>
+        <span class="pill">PCA → 2D meaning-map</span>
+        <span class="pill">Caching → embed once, reuse</span></div>
+    </section>
+
+    <!-- RESULTS -->
+    <section id="results">
+      <div class="hero"><h1>📊 The Results</h1><p>The top credit-card problems, discovered automatically from 112,481 complaints.</p></div>
+      <h3>🏆 Priority matrix (right = common, up = severe, bubble = priority)</h3>
+      <div id="matrix" style="height:480px;"></div>
+      <h3>📈 Ranked by priority</h3>
+      <div id="bars" style="height:520px;"></div>
+      <h3>🥇 Ranked problems</h3>
+      <div id="problemList"></div>
+    </section>
+
+    <!-- TOOLS -->
+    <section id="tools">
+      <div class="hero"><h1>🛠️ Tools &amp; Tech — explained simply</h1><p>Every technology used, in plain words.</p></div>
+      <div class="tool"><b>Python</b> — the language everything is written in.</div>
+      <div class="tool"><b>pandas / Parquet</b> — work with data tables; Parquet is robust for messy text.</div>
+      <div class="tool"><b>sentence-transformers (all-MiniLM-L6-v2)</b> — turns text into 384-number meaning-vectors.</div>
+      <div class="tool"><b>KMeans (scikit-learn)</b> — groups the vectors into themes.</div>
+      <div class="tool"><b>TF-IDF</b> — finds each theme's distinctive keywords.</div>
+      <div class="tool"><b>PCA</b> — shrinks 384 dimensions to 2 for plotting.</div>
+      <div class="tool"><b>VADER</b> — fast sentiment scoring for severity.</div>
+      <div class="tool"><b>Google Gemini (LLM)</b> — names each theme in plain English.</div>
+      <div class="tool"><b>Streamlit + Plotly</b> — turn the pipeline into an interactive app &amp; charts.</div>
+      <div class="tool"><b>Git / GitHub</b> — version control + public portfolio.</div>
+    </section>
+
+    <!-- LEARNINGS -->
+    <section id="learnings">
+      <div class="hero"><h1>🎓 Discoveries &amp; What I Learned</h1><p>The honest lessons — great for interviews.</p></div>
+      <div class="step"><div class="t">🐞 Trust nothing unverified</div>A time chart looked flat/wrong.
+        Investigating revealed dates were <b>silently corrupted</b> during extraction. Fixed it and
+        switched to Parquet. Always sanity-check a result that looks off.</div>
+      <div class="step"><div class="t">📈 More data, cleaner themes</div>On an 18k sample, "fraud" spread
+        across several overlapping clusters. On the full 112k, themes separated cleanly. More data
+        reduces clustering noise.</div>
+      <div class="step"><div class="t">🥇 Fraud dominates</div>The #1 problem — unauthorized/fraudulent
+        charges — is both the <b>most common (13.4%) and most severe</b>.</div>
+      <div class="step"><div class="t">🧪 Validate everything</div>Checked after every step
+        (completeness, duplicates, valid dates, sane labels) with a reusable check, showing real
+        before/after examples — never just summary numbers.</div>
+    </section>
+  </div>
+</div>
+
+<script>
+const DATA = {
+ themes: [
+  {rank:1,name:"Unauthorized Charges and Fraud Disputes",desc:"Fraudulent transactions, improper dispute handling, suspicious account activity.",vol:13.4,sev:0.776,pri:10.4},
+  {rank:2,name:"Billing and Merchant Charge Disputes",desc:"Unauthorized charges, overbilling, undelivered goods, denied refunds.",vol:12.7,sev:0.534,pri:6.78},
+  {rank:3,name:"Inaccurate Credit Reporting and Discrepancies",desc:"Incorrect account details and non-compliant credit-report entries.",vol:8.8,sev:0.462,pri:4.07},
+  {rank:4,name:"Payment Processing and Balance Errors",desc:"Unauthorized, misdirected, duplicate or delayed payments and transfers.",vol:11.2,sev:0.344,pri:3.85},
+  {rank:5,name:"Unauthorized Credit Card Applications",desc:"Cards opened or applied for without the customer's consent.",vol:9.7,sev:0.373,pri:3.62},
+  {rank:6,name:"Identity Theft and Fraudulent Accounts",desc:"Fraudulent accounts, identity theft, disputed report information.",vol:6.1,sev:0.556,pri:3.39},
+  {rank:7,name:"Merchant Disputes and Poor Communication",desc:"Unfulfilled resolutions, unresponsive companies, billing discrepancies.",vol:8.6,sev:0.373,pri:3.21},
+  {rank:8,name:"Unexpected Account Closures and Fraud",desc:"Unexpected closures following fraud disputes or inquiries.",vol:5.7,sev:0.444,pri:2.53},
+  {rank:9,name:"Unauthorized or Improper Account Closure",desc:"Unexpected closures or wrongly-reported closed-account statuses.",vol:6.7,sev:0.311,pri:2.08},
+  {rank:10,name:"High Interest Rates and Fees",desc:"High interest rates, predatory terms, unaffordable payments.",vol:8.2,sev:0.217,pri:1.78},
+  {rank:11,name:"Disputing Inaccurate Late Payment Reporting",desc:"Late-payment reporting from processing delays or closed accounts.",vol:3.7,sev:0.292,pri:1.08},
+  {rank:12,name:"Rewards and Promotional Offer Disputes",desc:"Misleading offers, uncredited bonus points, redemption confusion.",vol:5.2,sev:0.188,pri:0.98}
+ ]
+};
+const GREEN=["#DCE8B8","#B5CC7A","#8FB04E","#6B8E23","#4F6B1C","#3B5015"];
+const LAYOUT={plot_bgcolor:"rgba(0,0,0,0)",paper_bgcolor:"rgba(0,0,0,0)",
+  font:{color:"#2E3320"},margin:{t:20,r:20,l:20,b:50}};
+
+function drawCharts(){
+  const t=DATA.themes;
+  // priority matrix
+  Plotly.newPlot("matrix",[{
+    x:t.map(d=>d.vol), y:t.map(d=>d.sev), text:t.map(d=>String(d.rank)),
+    mode:"markers+text", textposition:"middle center",
+    textfont:{color:"white",size:12,family:"Arial Black"},
+    marker:{size:t.map(d=>d.pri*5+14),color:t.map(d=>d.pri),colorscale:"YlGn",
+      line:{color:"#3B5015",width:1},showscale:true,colorbar:{title:"Priority"}},
+    customdata:t.map(d=>[d.name,d.vol,d.sev,d.pri]),
+    hovertemplate:"<b>#%{text} %{customdata[0]}</b><br>Volume: %{customdata[1]}%<br>Severity: %{customdata[2]}<br>Priority: %{customdata[3]}<extra></extra>"
+  }],{...LAYOUT,xaxis:{title:"Volume (% of complaints)"},yaxis:{title:"Severity (0–1)"}},{responsive:true,displayModeBar:false});
+  // bars
+  const s=[...t].sort((a,b)=>a.pri-b.pri);
+  Plotly.newPlot("bars",[{
+    type:"bar",orientation:"h",x:s.map(d=>d.pri),y:s.map(d=>d.name),
+    text:s.map(d=>d.pri),textposition:"outside",
+    marker:{color:s.map(d=>d.sev),colorscale:"YlGn",showscale:false}
+  }],{...LAYOUT,xaxis:{title:"Priority (volume × severity)"},margin:{t:20,r:40,l:280,b:50}},{responsive:true,displayModeBar:false});
+}
+function sevLabel(v){return v>=.5?"High":(v>=.35?"Medium":"Low");}
+function buildList(){
+  document.getElementById("problemList").innerHTML = DATA.themes.map(d=>
+   `<div class="problem"><span class="rank">#${d.rank}</span>
+    <div class="name">${d.name}</div><div class="desc">${d.desc}</div>
+    <span class="badge b-vol">📈 ${d.vol}% of complaints</span>
+    <span class="badge b-sev">⚠️ Severity: ${sevLabel(d.sev)} (${d.sev})</span>
+    <span class="badge b-pri">🏆 Priority ${d.pri}</span></div>`).join("");
+}
+// nav
+const nav=document.getElementById("nav");
+nav.addEventListener("click",e=>{
+  if(e.target.tagName!=="A")return;
+  document.querySelectorAll(".nav a").forEach(a=>a.classList.remove("active"));
+  e.target.classList.add("active");
+  const id=e.target.dataset.t;
+  document.querySelectorAll("section").forEach(s=>s.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+  window.scrollTo(0,0);
+  if(id==="results"){drawCharts();}
+});
+buildList();
+</script>
+</body>
+</html>
