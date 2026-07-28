@@ -3,48 +3,55 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Insight Engine — Mining Customer Complaints</title>
+<title>Insight Engine — Study & Understand the Whole Project</title>
 <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
 <style>
   :root{
     --olive:#6B8E23; --olive-d:#556B2F; --olive-l:#8FB04E;
     --bg:#FFFFFF; --card:#F7FAEF; --border:#DDE7C4; --tint:#F2F5E9;
     --ink:#2E3320; --ink-soft:#55603F; --muted:#7A8560;
+    --gold:#9A7B0A; --goldbg:#FBF7E4; --goldbd:#E8DFA6;
   }
   *{box-sizing:border-box;}
   body{margin:0; font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
        color:var(--ink); background:var(--bg); font-size:16px; line-height:1.55;}
   a{color:var(--olive-d);}
-  /* layout */
   .wrap{display:flex; min-height:100vh;}
-  .side{width:250px; background:var(--tint); border-right:1px solid var(--border);
+  .side{width:255px; background:var(--tint); border-right:1px solid var(--border);
         padding:22px 16px; position:sticky; top:0; height:100vh; overflow-y:auto;}
   .side h2{font-size:1.15rem; color:var(--olive-d); margin:0 0 4px 0;}
   .side .tag{font-size:.8rem; color:var(--muted); margin-bottom:18px;}
   .nav a{display:block; padding:9px 12px; border-radius:9px; color:var(--ink-soft);
-         text-decoration:none; font-size:.95rem; margin-bottom:3px; cursor:pointer;}
+         text-decoration:none; font-size:.94rem; margin-bottom:3px; cursor:pointer;}
   .nav a:hover{background:#EAF0D9;}
   .nav a.active{background:var(--olive); color:#fff; font-weight:600;}
   .main{flex:1; padding:34px 44px; max-width:1050px;}
-  /* hero */
   .hero{background:linear-gradient(120deg,#7C9A3E 0%,#6B8E23 55%,#556B2F 100%);
-        padding:26px 32px; border-radius:16px; margin-bottom:24px; color:#fff;
+        padding:26px 32px; border-radius:16px; margin-bottom:22px; color:#fff;
         box-shadow:0 8px 22px rgba(107,142,35,.28);}
-  .hero h1{margin:0 0 6px 0; font-size:1.9rem;}
-  .hero p{margin:0; color:#F2F7E4; font-size:1.03rem;}
-  /* cards */
+  .hero h1{margin:0 0 6px 0; font-size:1.85rem;}
+  .hero p{margin:0; color:#F2F7E4; font-size:1.02rem;}
+  .chapline{color:var(--muted); font-weight:700; letter-spacing:.6px; text-transform:uppercase;
+            font-size:.72rem; margin:0 0 14px 2px;}
   .row{display:flex; gap:14px; flex-wrap:wrap; margin:18px 0;}
   .card{background:var(--card); border:1px solid var(--border); border-radius:14px;
         padding:16px 20px; flex:1; min-width:150px; box-shadow:0 3px 10px rgba(85,107,47,.08);}
   .card .lbl{font-size:.75rem; color:var(--muted); text-transform:uppercase; letter-spacing:.5px;}
-  .card .big{font-size:1.7rem; font-weight:800; color:var(--olive-d); margin-top:4px;}
-  .card .big.sm{font-size:1.05rem;}
+  .card .big{font-size:1.6rem; font-weight:800; color:var(--olive-d); margin-top:4px;}
+  .card .big.sm{font-size:1.02rem;}
   .step{background:var(--card); border:1px solid var(--border); border-radius:14px;
         padding:16px 22px; margin-bottom:14px;}
-  .step .t{font-size:1.1rem; font-weight:800; color:var(--olive-d); margin-bottom:6px;}
+  .step .t{font-size:1.08rem; font-weight:800; color:var(--olive-d); margin-bottom:6px;}
+  .concept{background:var(--goldbg); border:1px solid var(--goldbd); border-left:5px solid #C9A227;
+           border-radius:10px; padding:12px 16px; margin:10px 0;}
+  .concept b{color:var(--gold);}
   blockquote{border-left:4px solid var(--olive); background:var(--tint);
              padding:10px 16px; border-radius:6px; color:var(--ink-soft); margin:14px 0;}
   h3{color:#3E4A22; margin-top:26px;}
+  code{background:#EEF2E0; color:#4F6B1C; padding:1px 5px; border-radius:4px; font-size:.9em;}
+  pre{background:#2E3320; color:#EAF0D9; padding:14px 16px; border-radius:10px; overflow-x:auto;
+      font-size:.86rem; line-height:1.5;}
+  pre .c{color:#9DB06B;}
   .problem{background:var(--card); border-left:6px solid var(--olive); border-radius:12px;
            padding:14px 20px; margin-bottom:11px;}
   .problem .rank{color:var(--olive); font-weight:800;}
@@ -64,6 +71,21 @@
   @keyframes fade{from{opacity:0; transform:translateY(4px);} to{opacity:1; transform:none;}}
   .banner{background:#EAF0D9; border:1px solid var(--border); border-radius:10px;
           padding:10px 16px; font-size:.9rem; color:var(--ink-soft); margin-bottom:18px;}
+  /* Q&A page */
+  .qbar{display:flex; gap:12px; align-items:center; flex-wrap:wrap; margin-bottom:16px;}
+  .qbar input[type=search]{flex:1; min-width:220px; padding:10px 14px; border:1px solid var(--border);
+        border-radius:10px; font-size:.95rem;}
+  .toggle{display:flex; align-items:center; gap:7px; font-size:.9rem; color:var(--ink-soft);
+        background:var(--card); border:1px solid var(--border); padding:8px 12px; border-radius:10px; cursor:pointer;}
+  .qsec{font-size:1.12rem; font-weight:800; color:var(--olive-d); margin:22px 0 8px; }
+  .qa{background:var(--card); border:1px solid var(--border); border-radius:11px;
+      padding:13px 18px; margin-bottom:10px;}
+  .qa .q{font-weight:700; color:#3E4A22; cursor:pointer; display:flex; gap:8px; align-items:flex-start;}
+  .qa .q .mk{color:var(--olive); font-weight:800;}
+  .qa .a{color:var(--ink-soft); font-size:.95rem; margin-top:8px; padding-top:8px;
+         border-top:1px dashed var(--border);}
+  .qa.hidden-ans .a{display:none;}
+  .count{font-size:.82rem; color:var(--muted); margin-bottom:10px;}
   @media(max-width:800px){ .wrap{flex-direction:column;} .side{width:100%; height:auto; position:static;}
     .main{padding:22px;} }
 </style>
@@ -72,24 +94,28 @@
 <div class="wrap">
   <nav class="side">
     <h2>🔍 Insight Engine</h2>
-    <div class="tag">Raw complaints → ranked problems to fix.</div>
+    <div class="tag">Study the whole project · concepts · Q&amp;A.</div>
     <div class="nav" id="nav">
       <a data-t="home" class="active">🏠 Home</a>
-      <a data-t="problem">🎯 The Problem</a>
-      <a data-t="data">🗂️ The Data</a>
-      <a data-t="cleaning">🧹 Cleaning</a>
-      <a data-t="engine">🧠 The AI Engine</a>
-      <a data-t="results">📊 Results</a>
-      <a data-t="tools">🛠️ Tools &amp; Tech</a>
-      <a data-t="learnings">🎓 Learnings</a>
+      <a data-t="problem">🎯 1 · The Problem</a>
+      <a data-t="data">🗂️ 2 · The Data</a>
+      <a data-t="cleaning">🧹 3 · Cleaning</a>
+      <a data-t="engine">🧠 4 · The AI Engine</a>
+      <a data-t="results">📊 5 · The Results</a>
+      <a data-t="tools">🛠️ 6 · Tech Stack</a>
+      <a data-t="learnings">🎓 7 · Discoveries</a>
+      <a data-t="deploy">🚀 8 · Deploy &amp; Run</a>
+      <a data-t="qa">❓ 9 · Questions &amp; Answers</a>
     </div>
-    <div style="margin-top:20px; font-size:.82rem; color:var(--muted);">
-      Pipeline:<br>🧠 Embeddings → 🧩 Clustering → ⚠️ Severity → 🏆 Priority → 🏷️ AI naming
+    <div style="margin-top:20px; font-size:.8rem; color:var(--muted);">
+      Pipeline:<br>🧠 Embeddings → 🧩 Clustering → 🔤 TF-IDF → ⚠️ Severity → 🏆 Priority → 🏷️ LLM naming
     </div>
   </nav>
-  <div class="main">
-    <div class="banner">📄 This is the static (webpage) version of the dashboard. The full
-      interactive app with an upload-and-analyze mode is live on
+  <div class="main" id="main">
+
+    <div class="banner">📄 This is the offline study version of the dashboard — the whole project to
+      read and understand, plus a Questions &amp; Answers page. The full interactive app with the
+      live upload-and-analyze tool runs on
       <a href="https://complaint-insight-engine-swagata-bhowmik.streamlit.app" target="_blank">Streamlit&nbsp;↗</a>.</div>
 
     <!-- HOME -->
@@ -104,90 +130,220 @@
         <div class="card"><div class="lbl">Raw data processed</div><div class="big">8.5 GB</div></div>
         <div class="card"><div class="lbl">#1 problem</div><div class="big sm">Unauthorized Charges &amp; Fraud</div></div>
       </div>
-      <div class="step"><div class="t">The idea</div>
-        Companies get thousands of complaints written in plain English. Nobody can read them all,
-        so they never learn what's really wrong. This tool reads them <b>for</b> you and produces a
-        clear, ranked list: <i>"here are the top problems, fix these first."</i></div>
-      <blockquote><b>Golden rule:</b> real public data only, no fabrication — every number here
-        traces back to a real complaint and can be defended step by step.</blockquote>
+      <h3>👋 The whole idea in 30 seconds</h3>
+      <p>A bank gets <b>thousands of complaint letters a week</b> — double charges, fraud, app crashes,
+      rude service. No human can read them all, so the single most valuable piece of information —
+      <i>what is actually going wrong</i> — stays buried, and managers guess. This project builds a
+      machine that <b>reads every complaint</b>, groups the similar ones into <b>themes</b>, scores how
+      <b>serious</b> each is, and returns a ranked list: <i>"here are the top problems, fix these
+      first."</i> Nobody labelled the themes — it discovered them on its own.</p>
+      <h3>🧭 How to use this page (it's a story, in order)</h3>
+      <p>Each chapter in the sidebar owns <b>one distinct part</b> of the journey — nothing repeats.
+      Read them top to bottom and the whole project unfolds. Chapter&nbsp;4 is the teaching chapter
+      (every concept from zero), and Chapter&nbsp;9 is a full <b>Questions &amp; Answers</b> study page
+      with a search box and a self-test mode.</p>
+      <blockquote><b>The one rule behind everything:</b> real public data only, no fabrication — every
+        number here traces back to a real complaint and can be defended step by step.</blockquote>
     </section>
 
     <!-- PROBLEM -->
     <section id="problem">
-      <div class="hero"><h1>🎯 The Problem &amp; The Goal</h1><p>Why this project exists and what success looks like.</p></div>
-      <div class="step"><div class="t">😖 The pain</div>A bank or big company receives
-        <b>thousands of complaints every week</b> — double charges, fraud, app failures, rude service.
-        Reading them one-by-one is impossible, so the most valuable information — <i>what is actually
-        going wrong</i> — stays buried, and managers react only to whoever shouts loudest.</div>
-      <div class="step"><div class="t">🎯 The goal</div>Automatically answer three questions:
-        (1) What are people complaining about? (2) Which problems matter most (common × severe)?
-        (3) So what should we fix first?</div>
-      <div class="step"><div class="t">💼 Business value</div>Turning raw text into a ranked action
-        plan means fixing the <b>right</b> things first — saving money, reducing churn, improving trust.</div>
+      <div class="hero"><h1>🎯 Chapter 1 — The Problem &amp; The Goal</h1>
+        <p>Before any code: what business pain are we solving, and how will we know we won?</p></div>
+      <div class="chapline">This chapter owns: the business case — the "why" behind the whole project</div>
+      <div class="step"><div class="t">😖 The pain, concretely</div>A bank receives <b>thousands of
+        complaints every week</b> in free-form English — a double charge, a fraudulent transaction, an
+        app that failed, a rude agent. Reading them one-by-one is impossible, so the richest signal a
+        company owns — <i>its customers telling it exactly what is broken</i> — is wasted. Teams react
+        to whoever complains loudest, not to what is most common and most damaging.</div>
+      <div class="step"><div class="t">🎯 The three questions we must answer</div>
+        <b>1. What are people complaining about?</b> → discover the recurring themes.<br>
+        <b>2. Which problems matter most?</b> → rank by how <i>common</i> AND how <i>severe</i>.<br>
+        <b>3. So what do we fix first?</b> → a clear ordered "fix-first" list + a reusable tool.</div>
+      <div class="step"><div class="t">💼 Why this is worth money</div>Turning raw text into a ranked
+        action plan means the company fixes the <b>right</b> things first — reducing refunds,
+        chargebacks, churn and call-centre load, and protecting trust. It's the difference between
+        <i>"we ran an algorithm"</i> and <i>"we answered a business question that saves money."</i></div>
+      <blockquote><b>Interview one-liner:</b> "I built a system that turns raw customer complaints into
+        a prioritized action plan — the top problems ranked by frequency and severity, delivered as a
+        dashboard and a self-serve upload tool."</blockquote>
     </section>
 
     <!-- DATA -->
     <section id="data">
-      <div class="hero"><h1>🗂️ The Data</h1><p>Real, public, and chosen carefully.</p></div>
+      <div class="hero"><h1>🗂️ Chapter 2 — The Data</h1>
+        <p>The foundation. If the data is wrong, everything built on it is wrong — so we chose it
+        carefully and explored it thoroughly before writing a line of modelling code.</p></div>
+      <div class="chapline">This chapter owns: where the data came from, why it's legal, and what exploring it revealed</div>
       <div class="row">
-        <div class="card"><div class="lbl">Source</div><div class="big sm">CFPB (US Govt)</div></div>
-        <div class="card"><div class="lbl">Full size</div><div class="big sm">17M rows / 8.5 GB</div></div>
-        <div class="card"><div class="lbl">Our scope</div><div class="big sm">112k credit-card</div></div>
+        <div class="card"><div class="lbl">Full file</div><div class="big sm">17.1M rows</div></div>
+        <div class="card"><div class="lbl">On disk</div><div class="big sm">8.5 GB</div></div>
+        <div class="card"><div class="lbl">Have written text</div><div class="big sm">3.8M (22%)</div></div>
+        <div class="card"><div class="lbl">Our final scope</div><div class="big sm">112,481</div></div>
       </div>
-      <div class="step"><div class="t">📚 What we used</div>The <b>CFPB Consumer Complaint Database</b> —
-        a free, public U.S. government dataset of real complaints. The key field is the <b>narrative</b>:
-        the customer's own written story of what happened.</div>
-      <div class="step"><div class="t">🧭 Why this (and not scraping app reviews)</div>Scraping violates
-        platform terms, is unreliable, and raises privacy issues. <b>"Publicly visible" ≠ "safe to
-        bulk-collect."</b> CFPB is legal, large, and defensible.</div>
-      <div class="step"><div class="t">🔬 What profiling taught us</div>Narratives only exist from
-        <b>2015 onward</b>; the same product had <b>multiple labels</b> over the years; and we caught a
-        <b>silent bug</b> where dates were corrupted during extraction — a chart looked wrong, we
-        investigated, and fixed it. Proof you must sanity-check everything.</div>
+      <div class="step"><div class="t">📚 What the data is</div>The <b>CFPB Consumer Complaint
+        Database</b> — published free by the U.S. Consumer Financial Protection Bureau (a government
+        body). The field that matters is the <b>narrative</b>: the customer's own written story. That
+        free text is the raw material the whole engine runs on.</div>
+      <div class="step"><div class="t">🧭 Why THIS data — and deliberately not scraping app reviews</div>
+        A compliance decision: government open data is explicitly free to use, while scraping the Play
+        Store / App Store <i>violates their terms of service</i>, can get you blocked, and pulls in
+        personal data (privacy risk). <b>"Publicly visible" is not the same as "free and safe to
+        bulk-collect."</b> CFPB is also large, real, and problem-focused (complaints, not star ratings).</div>
+      <div class="concept"><b>💡 EDA (Exploratory Data Analysis)</b> — looking hard at your data
+        <i>before</i> building anything — how big, what's inside, what's missing, what's weird — so you
+        don't draw wrong conclusions. Skipping it is how analysts quietly build on sand.</div>
+      <div class="concept"><b>💡 Chunked / out-of-core processing</b> — the file is 8.5 GB, too big for
+        memory, so we read it in <b>chunks</b> of 200,000 rows, summarised each, and discarded it before
+        the next. Like drinking a lake through a straw instead of swallowing it whole.</div>
+      <div class="step"><div class="t">🔬 What profiling the full file told us</div>
+        • 17.1M complaints; only <b>3.8M (22%)</b> have narratives (opt-in).<br>
+        • Narratives only exist <b>from 2015 onward</b>, so the oldest rows look empty — judging from the
+        first chunk gave a misleading "0.7% have text" because the file is oldest-first.<br>
+        • Volume is exploding: 2025 alone had ~1.2M narratives.<br>
+        • <b>Product labels are messy</b> — the same product appears under multiple names ("Credit card"
+        vs "Credit card or prepaid card"); they must be merged or you double-count.</div>
+      <div class="step"><div class="t">🎯 How we narrowed 17M down to our working set</div>Scope:
+        <b>Product = Credit card</b> (both variants merged), <b>only rows with a narrative</b>, and
+        <b>2023 onward</b>. Filtering in chunks produced <b>124,962</b> credit-card complaints — the
+        slice we then cleaned.</div>
     </section>
 
     <!-- CLEANING -->
     <section id="cleaning">
-      <div class="hero"><h1>🧹 Cleaning the Text</h1><p>Remove noise without destroying meaning.</p></div>
+      <div class="hero"><h1>🧹 Chapter 3 — Cleaning the Text</h1>
+        <p>Careful, evidence-first cleaning that removes noise without destroying meaning.</p></div>
+      <div class="chapline">This chapter owns: how raw messy text became model-ready — and why every choice was conservative</div>
       <div class="row">
-        <div class="card"><div class="lbl">Before</div><div class="big">124,962</div></div>
+        <div class="card"><div class="lbl">Before cleaning</div><div class="big">124,962</div></div>
         <div class="card"><div class="lbl">Removed</div><div class="big">12,481</div></div>
-        <div class="card"><div class="lbl">After (clean)</div><div class="big">112,481</div></div>
+        <div class="card"><div class="lbl">Clean &amp; unique</div><div class="big">112,481</div></div>
       </div>
-      <div class="step"><div class="t">🧯 Problems found</div>~12,000 duplicate complaints (inflate
-        counts); privacy masks everywhere (<code>XXXX</code>, <code>XX/XX/year&gt;</code>,
-        <code>{$70.00}</code>); two names for the same product.</div>
-      <div class="step"><div class="t">🧼 What we did</div>Removed duplicates, merged product labels,
-        and turned privacy masks into neat placeholders (<code>&lt;redacted&gt;</code>,
-        <code>&lt;date&gt;</code>, <code>&lt;money&gt;</code>) instead of deleting them — keeping
-        sentences readable. Original text kept too, for before/after auditability.</div>
+      <div class="step"><div class="t">🔎 We measured the mess before touching it</div>
+        • <b>12,268 exact-duplicate</b> narratives (~10%).<br>
+        • <b>75.9%</b> contain <code>XXXX</code> privacy masks (median 4 each).<br>
+        • <b>42.5%</b> contain money masks like <code>{$70.00}</code>; many contain <code>XX/XX/year&gt;</code> dates.<br>
+        • <b>256</b> narratives shorter than 50 characters (too little signal).</div>
+      <div class="step"><div class="t">🧯 Why each is a problem</div><b>Duplicates</b> lie about how
+        common a problem is; <b>privacy masks</b> are pure noise to a meaning model; <b>two labels</b>
+        split one theme into two; <b>ultra-short</b> texts carry almost no meaning.</div>
+      <div class="concept"><b>💡 Regex (regular expressions)</b> — a tiny pattern-matching language for
+        find-and-replace in text. Example: <code>X{2,}</code> means "two or more capital X's in a row" —
+        that's how we detect a redaction like <code>XXXX</code> and swap it out.</div>
+      <div class="step"><div class="t">🧼 What we did — carefully, not aggressively</div>Removed exact
+        duplicates; merged the two product labels; turned privacy masks into <b>neutral placeholders</b>
+        (<code>&lt;redacted&gt;</code>, <code>&lt;date&gt;</code>, <code>&lt;money&gt;</code>) instead of
+        deleting them; dropped &lt;50-char texts; and <b>kept the original text</b> in its own column for
+        before/after auditability.</div>
+      <div class="concept"><b>💡 Why placeholders instead of deleting?</b> Deleting every
+        <code>XXXX</code> shatters sentences ("In my was charged"). A neutral placeholder keeps the
+        sentence readable and its meaning intact while removing the identity noise.
+        <b>Over-cleaning destroys signal.</b></div>
       <blockquote><b>Before:</b> "In XX/XX/year&gt;, XXXX applied charges higher than I agreed…"<br>
         <b>After:</b> "In &lt;date&gt;, &lt;redacted&gt; applied charges higher than I agreed…"</blockquote>
     </section>
 
     <!-- ENGINE -->
     <section id="engine">
-      <div class="hero"><h1>🧠 The AI Engine</h1><p>How the computer "reads" complaints and finds problems — in 5 steps.</p></div>
-      <div class="step"><div class="t">🧠 1 — Embeddings</div>Each complaint becomes a list of
-        <b>384 numbers</b> capturing its <b>meaning</b>, so similar complaints sit close together on a
-        "meaning-map". Tool: <b>sentence-transformers</b>, model <b>all-MiniLM-L6-v2</b>.</div>
-      <div class="step"><div class="t">🧩 2 — Clustering</div><b>KMeans</b> finds the crowds of dots on
-        that map — each crowd is a <b>theme</b>. We used K=12.</div>
-      <div class="step"><div class="t">⚠️ 3 — Severity</div>How <b>bad</b> is each problem? We score
-        negativity with <b>VADER</b> and flag high-stakes words (fraud, stolen, identity theft).</div>
-      <div class="step"><div class="t">🏆 4 — Priority</div><b>Priority = Volume × Severity</b> —
-        surfaces problems that are both common AND serious.</div>
-      <div class="step"><div class="t">🏷️ 5 — AI naming</div>An <b>LLM (Google Gemini)</b> reads each
-        theme's keywords + examples and gives it a clear human name.</div>
-      <div style="margin-top:10px;">
-        <span class="pill">TF-IDF → theme keywords</span>
-        <span class="pill">PCA → 2D meaning-map</span>
-        <span class="pill">Caching → embed once, reuse</span></div>
+      <div class="hero"><h1>🧠 Chapter 4 — The AI Engine</h1>
+        <p>The teaching chapter. This is where a computer actually "reads" complaints and finds the
+        problems. Every concept is explained from zero — read this one slowly.</p></div>
+      <div class="chapline">This chapter owns: ALL the machine-learning concepts. Other chapters just refer back here.</div>
+      <p>The engine is a <b>5-step pipeline</b>; each step feeds the next:</p>
+      <div><span class="pill">1 · Embeddings</span><span class="pill">2 · Clustering</span>
+        <span class="pill">3 · TF-IDF keywords</span><span class="pill">4 · Severity</span>
+        <span class="pill">5 · Priority</span><span class="pill">+ LLM naming</span></div>
+
+      <h3>🧠 Step 1 — Embeddings: give each complaint a location on a "meaning-map"</h3>
+      <div class="step"><div class="t">The core idea</div>Computers understand numbers, not words. So we
+        turn each complaint into a list of <b>384 numbers</b> called an <b>embedding</b> (or <b>vector</b>).
+        The magic rule: complaints that <i>mean</i> similar things get similar numbers. "I was charged
+        twice" and "I got double-billed" land right next to each other even though they share almost no
+        words. Picture every complaint as a dot on a giant map where distance = difference in meaning.</div>
+      <div class="concept"><b>💡 Embedding / vector</b> — a fixed-length list of numbers that captures
+        the <i>meaning</i> of text. Think of it as a GPS coordinate in "meaning-space": similar meaning →
+        nearby coordinates.</div>
+      <div class="concept"><b>💡 The model: all-MiniLM-L6-v2</b> — a small, free, <i>pre-trained</i> AI
+        model that produces the 384-number vectors. We didn't train it; we used it. It runs on a normal
+        laptop CPU. Embedding all 112k took ~<b>75 minutes</b>, so we ran it once and <b>saved</b> the
+        vectors — every later step reloads them in a second.</div>
+
+      <h3>🧩 Step 2 — Clustering: circle the crowds on the map</h3>
+      <div class="step"><div class="t">The core idea</div>Now every complaint is a dot on the map.
+        <b>Clustering</b> finds the natural crowds of dots. Each crowd is a group of similar complaints
+        = a <b>theme</b>. Nobody told the computer the themes — it discovered them. That's
+        <b>unsupervised learning</b> (learning with no answer key).</div>
+      <div class="concept"><b>💡 KMeans</b> — you tell it "make K groups" (we chose K=12). It drops 12
+        flags on the map, assigns each dot to its nearest flag, moves each flag to the centre of its
+        dots (the <b>centroid</b>), and repeats until the groups stop moving. The centroid is just the
+        average position of a group.</div>
+      <div class="concept"><b>💡 Why K = 12?</b> Enough groups to separate genuinely different problems
+        without splitting hairs. It's a starting choice you inspect and adjust — in the Streamlit upload
+        tool you can slide K yourself and watch the themes change.</div>
+
+      <h3>🔤 Step 3 — TF-IDF: find the words that make each theme distinctive</h3>
+      <div class="concept"><b>💡 TF-IDF (Term Frequency – Inverse Document Frequency)</b> — a score that
+        is high for words <i>common inside one theme but rare everywhere else</i>. "the" and "card" score
+        low (they're everywhere); "chargeback" scores high if it clusters in one theme. We use the
+        top-scoring words as each theme's keyword label. Shortcut: <b>the words that make this group
+        special.</b></div>
+
+      <h3>⚠️ Step 4 — Severity: how bad is each problem, not just how common?</h3>
+      <div class="step"><div class="t">Why volume alone is not enough</div>A theme can be huge but mild
+        (rewards confusion) or smaller but devastating (identity theft). A business cares about
+        <b>both</b>, so we score how serious each complaint is using two honest signals combined.</div>
+      <div class="concept"><b>💡 Signal 1 — VADER sentiment</b> — <b>sentiment analysis</b> judges the
+        emotional tone of text. VADER is a fast, dictionary-based tool giving a "compound" score from -1
+        (very negative) to +1 (very positive). We flip it onto a 0–1 scale where 1 = most negative. No
+        GPU, no API, fully transparent.</div>
+      <div class="concept"><b>💡 Signal 2 — high-stakes keywords</b> — the share of complaints in a
+        theme mentioning genuinely serious words (<i>fraud, unauthorized, stolen, scam, identity, threat,
+        legal, police, victim</i>).</div>
+      <div class="step"><div class="t">Combining them</div><b>theme severity = average of (negativity)
+        and (high-stakes share)</b>, both 0–1. We're honest that this is a <i>proxy</i> for severity, not
+        ground truth — VADER can misread sarcasm and the keyword list is hand-picked. Stating that is a
+        strength.</div>
+
+      <h3>🏆 Step 5 — Priority: the smart ranking</h3>
+      <div class="step"><div class="t">The formula</div><b>Priority = Volume (%) × Severity.</b> This
+        surfaces problems that are both common AND serious — not a popularity contest. It's the classic
+        business <b>priority matrix</b>: volume on one axis, severity on the other; top-right (common +
+        severe) = fix first. You can see that exact chart in Chapter 5.</div>
+      <div class="concept"><b>💡 A little statistics (nothing scary)</b> — the only stats here are the
+        friendly kind: a <b>mean</b> (average) to combine the two severity signals, a <b>percentage
+        share</b> for volume, and a <b>median</b> (middle value) to draw the divider lines on the
+        priority matrix. We also <b>normalise</b> scores to a 0–1 range before combining them, so one
+        signal can't dominate just because it uses bigger numbers.</div>
+
+      <h3>🏷️ Final touch — an LLM gives each theme a human name</h3>
+      <div class="step"><div class="t">From "Theme 0" to "Unauthorized Charges &amp; Fraud Disputes"</div>
+        The groups start as bare numbers. We send each theme's top keywords + 3 real example complaints
+        to an <b>LLM</b> and ask for a short name and description as strict JSON, so our code can read it.
+        If a call fails, we fall back to the TF-IDF keyword label — the pipeline never breaks.</div>
+      <div class="concept"><b>💡 LLM (Large Language Model) — here Google Gemini</b> — an AI that
+        understands and writes human language. We used the free tier via an <b>API</b> (our code talking
+        to Google's AI). The secret <b>API key</b> lives in a hidden <code>.env</code> file, never
+        uploaded to GitHub. Classic ML (embeddings + clustering) does the heavy lifting; the LLM just
+        adds a readable label on top.</div>
+      <div class="concept"><b>💡 PCA (Principal Component Analysis)</b> — our vectors have 384 dimensions,
+        impossible to draw. PCA squashes them to 2 while keeping the biggest patterns, so we can plot the
+        meaning-map as a flat scatter. Used only for the picture.</div>
+      <blockquote><b>The whole engine in one breath:</b> embeddings turn text into meaning-vectors →
+        KMeans clusters them into themes → TF-IDF labels each → VADER + keywords score severity → volume
+        × severity ranks them → an LLM names them.</blockquote>
     </section>
 
     <!-- RESULTS -->
     <section id="results">
-      <div class="hero"><h1>📊 The Results</h1><p>The top credit-card problems, discovered automatically from 112,481 complaints.</p></div>
+      <div class="hero"><h1>📊 Chapter 5 — The Results</h1>
+        <p>The top credit-card problems, discovered automatically from 112,481 real complaints.</p></div>
+      <div class="chapline">This chapter owns: the actual answers and how to read them</div>
+      <h3>🔭 The headline</h3>
+      <p>The engine ranked 12 themes. The clear story: <b>fraud and disputes dominate</b>.
+      <b>Unauthorized Charges &amp; Fraud</b> is #1 — both the <b>most common (13.4%)</b> and the
+      <b>most severe (0.78)</b>, the worst possible combination and an unambiguous fix-first.
+      Low-severity themes like rewards confusion correctly sink to the bottom even though they're fairly
+      common — which is exactly why priority beats raw volume.</p>
       <h3>🏆 Priority matrix (right = common, up = severe, bubble = priority)</h3>
       <div id="matrix" style="height:480px;"></div>
       <h3>📈 Ranked by priority</h3>
@@ -198,36 +354,134 @@
 
     <!-- TOOLS -->
     <section id="tools">
-      <div class="hero"><h1>🛠️ Tools &amp; Tech — explained simply</h1><p>Every technology used, in plain words.</p></div>
-      <div class="tool"><b>Python</b> — the language everything is written in.</div>
-      <div class="tool"><b>pandas / Parquet</b> — work with data tables; Parquet is robust for messy text.</div>
-      <div class="tool"><b>sentence-transformers (all-MiniLM-L6-v2)</b> — turns text into 384-number meaning-vectors.</div>
-      <div class="tool"><b>KMeans (scikit-learn)</b> — groups the vectors into themes.</div>
-      <div class="tool"><b>TF-IDF</b> — finds each theme's distinctive keywords.</div>
-      <div class="tool"><b>PCA</b> — shrinks 384 dimensions to 2 for plotting.</div>
-      <div class="tool"><b>VADER</b> — fast sentiment scoring for severity.</div>
-      <div class="tool"><b>Google Gemini (LLM)</b> — names each theme in plain English.</div>
-      <div class="tool"><b>Streamlit + Plotly</b> — turn the pipeline into an interactive app &amp; charts.</div>
-      <div class="tool"><b>Git / GitHub</b> — version control + public portfolio.</div>
+      <div class="hero"><h1>🛠️ Chapter 6 — Tech Stack</h1>
+        <p>A quick reference to every technology used. Chapter 4 explained the <i>concepts</i>; this
+        lists the <i>tools</i> that implement them.</p></div>
+      <div class="chapline">This chapter owns: the tooling reference</div>
+      <h3>🧰 Foundations</h3>
+      <div class="tool"><b>Python</b> — the programming language everything is written in.</div>
+      <div class="tool"><b>pandas</b> — works with data tables in code (a table is a "DataFrame").</div>
+      <div class="tool"><b>NumPy</b> — fast maths on arrays; holds and slices the embedding vectors.</div>
+      <div class="tool"><b>Parquet</b> — a typed, compressed table format, safe with messy free text (CSV corrupted our dates once; Parquet fixed it).</div>
+      <div class="tool"><b>Virtual environment (.venv)</b> — a private toolbox per project so library versions never clash.</div>
+      <div class="tool"><b>Git &amp; GitHub</b> — Git saves snapshots (commits); GitHub hosts them online.</div>
+      <h3>🧠 NLP &amp; Machine Learning</h3>
+      <div class="tool"><b>sentence-transformers / all-MiniLM-L6-v2</b> — the pre-trained model that makes 384-number embeddings.</div>
+      <div class="tool"><b>scikit-learn — KMeans</b> — clusters the vectors into K themes.</div>
+      <div class="tool"><b>scikit-learn — TfidfVectorizer</b> — scores each theme's distinctive keywords.</div>
+      <div class="tool"><b>scikit-learn — PCA</b> — shrinks 384 dimensions to 2 for plotting.</div>
+      <div class="tool"><b>VADER (vaderSentiment)</b> — fast, transparent sentiment scoring for severity.</div>
+      <h3>🤖 Generative AI &amp; the App</h3>
+      <div class="tool"><b>Google Gemini (google-genai)</b> — the LLM that names each theme.</div>
+      <div class="tool"><b>python-dotenv</b> — loads the secret API key from the hidden .env file.</div>
+      <div class="tool"><b>Streamlit</b> — turns a Python script into the interactive web app.</div>
+      <div class="tool"><b>Plotly</b> — makes the interactive, hoverable charts.</div>
+      <h3>🔤 Glossary (all explained in Chapter 4)</h3>
+      <div><span class="pill">Embedding</span><span class="pill">Vector</span><span class="pill">Clustering</span>
+        <span class="pill">Centroid</span><span class="pill">Unsupervised learning</span><span class="pill">Sentiment</span>
+        <span class="pill">TF-IDF</span><span class="pill">LLM / API key</span><span class="pill">PCA</span>
+        <span class="pill">Priority matrix</span><span class="pill">EDA</span><span class="pill">Reproducibility</span></div>
     </section>
 
     <!-- LEARNINGS -->
     <section id="learnings">
-      <div class="hero"><h1>🎓 Discoveries &amp; What I Learned</h1><p>The honest lessons — great for interviews.</p></div>
-      <div class="step"><div class="t">🐞 Trust nothing unverified</div>A time chart looked flat/wrong.
-        Investigating revealed dates were <b>silently corrupted</b> during extraction. Fixed it and
-        switched to Parquet. Always sanity-check a result that looks off.</div>
-      <div class="step"><div class="t">📈 More data, cleaner themes</div>On an 18k sample, "fraud" spread
-        across several overlapping clusters. On the full 112k, themes separated cleanly. More data
-        reduces clustering noise.</div>
-      <div class="step"><div class="t">🥇 Fraud dominates</div>The #1 problem — unauthorized/fraudulent
-        charges — is both the <b>most common (13.4%) and most severe</b>.</div>
-      <div class="step"><div class="t">🧪 Validate everything</div>Checked after every step
-        (completeness, duplicates, valid dates, sane labels) with a reusable check, showing real
-        before/after examples — never just summary numbers.</div>
+      <div class="hero"><h1>🎓 Chapter 7 — Discoveries &amp; What I Learned</h1>
+        <p>The honest engineering story — the bugs caught, the surprises, and the working habits.</p></div>
+      <div class="chapline">This chapter owns: the real problems hit and the lessons</div>
+      <div class="step"><div class="t">🐞 The bug we caught — silently corrupted dates</div>After
+        extracting our slice, a "complaints per month" chart looked flat and wrong. Investigating showed
+        only ~6,281 of 124,962 dates were valid — the rest were <b>NaT</b> (missing). Root cause: across
+        an 8.5 GB CSV, pandas inferred the date column's type <i>differently in different chunks</i>, and
+        joining them coerced most dates to missing. <b>Fix:</b> convert dates inside each chunk before
+        joining, and switch from CSV to Parquet (176 MB → 74 MB). Result: 124,962/124,962 valid.
+        <b>Lesson: never trust a result that looks off; sanity-check it.</b></div>
+      <div class="step"><div class="t">📈 The surprise — more data gave cleaner themes</div>On the 18k
+        sample, "fraud" smeared across ~3 overlapping clusters. On the full 112k those sub-types
+        separated into distinct categories. <b>More data → centroids estimated from more points → less
+        noise, more stable clusters.</b></div>
+      <div class="step"><div class="t">🧪 The habit — validate everything</div>We built a reusable
+        <code>validate()</code> function and ran it after <b>every</b> data step (size, nulls,
+        duplicates, valid dates, sane labels). Validating <i>after</i> a transformation — not just
+        before — is what caught the date bug.</div>
+      <div class="step"><div class="t">🧯 The honesty — knowing the limits</div>Severity is a
+        <b>proxy</b> (lexicon + hand-picked keywords), not ground truth. KMeans needs K up front and
+        assumes round-ish clusters. Some themes still overlap. Stating these openly shows judgement.</div>
+      <div class="step"><div class="t">🔑 The engineering call — separate the slow step</div>Embedding
+        112k takes ~75 min, so it's its own script that <b>saves</b> the vectors — an interruption in
+        later analysis never wastes that expensive compute.</div>
     </section>
-  </div>
-</div>
+
+    <!-- DEPLOY -->
+    <section id="deploy">
+      <div class="hero"><h1>🚀 Chapter 8 — Deploy &amp; Run</h1>
+        <p>How this stops being a laptop project and reaches the world — with every command.</p></div>
+      <div class="chapline">This chapter owns: shipping — run commands, Git, deployment, automation</div>
+      <h3>▶️ Run the whole pipeline (order matters)</h3>
+      <pre><span class="c"># one-time setup</span>
+python -m venv .venv
+.venv\Scripts\activate
+pip install -r project1_insight_engine/requirements.txt
+
+<span class="c"># reproduce the pipeline</span>
+cd project1_insight_engine/notebooks
+python scan_data.py            <span class="c"># profile the 8.5 GB file (EDA)</span>
+python extract_slice.py        <span class="c"># carve credit-card slice -> Parquet</span>
+python build_embeddings.py     <span class="c"># embed 18k sample (~12 min)</span>
+python build_clusters.py       <span class="c"># KMeans into 12 themes</span>
+python build_themes.py         <span class="c"># named table + charts</span>
+python build_severity.py       <span class="c"># VADER severity + priority</span>
+python name_themes_llm.py      <span class="c"># Gemini names (needs GEMINI_API_KEY)</span>
+python scale_embeddings.py     <span class="c"># embed ALL 112k (~75 min)</span>
+python analyze_full.py         <span class="c"># full run: cluster+severity+priority+names</span>
+python build_deploy_bundle.py  <span class="c"># write app/deploy_data.json</span>
+
+<span class="c"># launch the dashboard</span>
+streamlit run project1_insight_engine/app/insight_app.py</pre>
+
+      <h3>🧷 The GitHub workflow (stage → commit → push)</h3>
+      <div class="concept"><b>💡 Commit vs push</b> — a <b>commit</b> is a save-point on your computer;
+        a <b>push</b> uploads commits to GitHub. You commit many times locally and push once.</div>
+      <pre>git add &lt;files&gt;            <span class="c"># stage the files to save</span>
+git commit -m "message"    <span class="c"># seal a save-point locally</span>
+git push                   <span class="c"># upload to GitHub</span>
+
+<span class="c"># first time only:</span>
+git init
+git remote add origin https://github.com/&lt;user&gt;/&lt;repo&gt;.git
+git branch -M main
+git push -u origin main</pre>
+      <blockquote><b>Key discipline:</b> the big data files, the <code>.venv</code>, and the secret
+        <code>.env</code> are listed in <code>.gitignore</code> so they are <b>never</b> uploaded. Repos
+        hold code, not gigabytes or secrets.</blockquote>
+
+      <h3>🌍 Deploy the dashboard (Streamlit Community Cloud, free)</h3>
+      <div class="step"><div class="t">The steps</div>1. Push the repo (app code, requirements.txt,
+        deploy_data.json) to GitHub. 2. Go to share.streamlit.io and connect GitHub. 3. Pick the repo;
+        set the app file <code>project1_insight_engine/app/insight_app.py</code>. 4. Streamlit installs
+        requirements.txt and serves a public URL. 5. The hosted app reads the tiny
+        <code>deploy_data.json</code>; the heavy data stays local and the secret key is never shipped.</div>
+      <div class="step"><div class="t">⏰ Scheduled auto-refresh (planned)</div>Using <b>GitHub
+        Actions</b> (free), the pipeline can run on a timer — pull newest complaints, re-run the engine,
+        and refresh a "top new issues this week" report by itself. On-demand for humans, scheduled for
+        the robot.</div>
+    </section>
+
+    <!-- Q&A -->
+    <section id="qa">
+      <div class="hero"><h1>❓ Chapter 9 — Questions &amp; Answers</h1>
+        <p>Direct question-and-answer study page — every question grouped by topic. Search to find
+        anything, or flip on self-test mode to hide the answers and quiz yourself.</p></div>
+      <div class="chapline">This chapter owns: the full Q&amp;A bank for studying and self-testing</div>
+      <div class="qbar">
+        <input type="search" id="qsearch" placeholder="🔎 Search questions and answers…">
+        <div class="toggle" id="studyToggle">🙈 Self-test mode: <b id="studyState">OFF</b></div>
+      </div>
+      <div class="count" id="qcount"></div>
+      <div id="qaList"></div>
+    </section>
+
+  </div><!-- /main -->
+</div><!-- /wrap -->
 
 <script>
 const DATA = {
@@ -246,13 +500,115 @@ const DATA = {
   {rank:12,name:"Rewards and Promotional Offer Disputes",desc:"Misleading offers, uncredited bonus points, redemption confusion.",vol:5.2,sev:0.188,pri:0.98}
  ]
 };
+
+const QA = [
+ {sec:"1 · The Project Story", items:[
+  ["In one sentence, what is this project?","I built a system that reads tens of thousands of real customer complaints and automatically discovers the top problems, ranked by how common and how severe they are — using embeddings to understand meaning, clustering to group similar complaints, sentiment scoring for severity, and a language model to name each theme — delivered as a dashboard and an upload tool."],
+  ["What business problem does it solve?","A bank gets thousands of complaints a week in free text. Nobody can read them all, so the signal about what's actually broken stays buried and managers guess. My tool turns that raw text into a prioritized 'fix-first' list, so the company fixes the right things and reduces refunds, churn and call-centre load."],
+  ["Why is this valuable and not just 'running an algorithm'?","Because it answers a business question, not just a technical one. It ranks by priority = volume × severity, so the output is an action plan a non-technical manager can act on immediately."],
+  ["Walk me through the pipeline end to end.","Get and profile the CFPB data (EDA on 8.5 GB in chunks) → extract a credit-card slice → clean the text (dedupe, normalise privacy masks) → embed each complaint into 384 numbers → cluster with KMeans into 12 themes → label themes with TF-IDF keywords → score severity with VADER sentiment + high-stakes words → rank by priority → name each theme with Gemini → serve it in a Streamlit app with a live upload tool."],
+  ["What were the final results?","12 themes. #1 was Unauthorized Charges & Fraud — the most common (13.4%) AND most severe (0.78). Then billing/merchant disputes, credit-reporting errors, payment-processing errors, unauthorized applications, identity theft, and so on down to low-severity rewards confusion."],
+  ["What are you most proud of?","Two things: catching a silent data-corruption bug by not ignoring a chart that looked off, and building it end-to-end on real, defensible public data with an honest account of its limits."],
+  ["What was the hardest part?","Debugging the silently corrupted dates — the data looked fine at a glance but a time-chart was flat. Tracing it to per-chunk type inference during a CSV round-trip, and fixing it properly, took discipline."]
+ ]},
+ {sec:"2 · Data & EDA", items:[
+  ["Why did you choose the CFPB dataset?","It's authoritative US government open data — legally clean, large (millions of real complaints), and problem-focused (actual complaint narratives, not star ratings). It's fully defensible."],
+  ["Why not scrape app-store or Play-Store reviews?","Scraping violates their terms of service, is technically brittle (blocks, rate limits, only a few hundred reviews), and pulls in personal data with privacy implications. 'Publicly visible' is not the same as 'free and safe to bulk-collect.' CFPB is a stronger, safer story."],
+  ["What is EDA and why did you do it first?","Exploratory Data Analysis — looking at size, contents, missing values and quirks before building anything. I did it because if the data is misunderstood, everything built on it is wasted. It's how I found that narratives only start in 2015 and product labels were inconsistent."],
+  ["The file was 8.5 GB — how did you handle it?","Chunked (out-of-core) processing: I read it in batches of 200,000 rows with pandas' chunksize, accumulated summary statistics, and never held the whole file in memory. That's the standard way to profile data larger than RAM."],
+  ["What data-quality issues did you find?","Narratives are opt-in so only 22% of rows have text and only from 2015 on; product labels drift over time (same product, multiple names); some columns are almost entirely null; and dates needed timezone normalisation."],
+  ["How did you decide your scope?","Credit-card complaints, with a narrative, from 2023 onward. Credit cards are relatable, banking-relevant, and the resulting 112k rows are big enough for stable patterns but small enough to run on a laptop."],
+  ["What is a null and how did you treat nulls?","A null is an empty cell. I measured null percentages per column; columns almost entirely null (like Tags) I ignored, and I required a non-null narrative for every row I kept."]
+ ]},
+ {sec:"3 · The Debugging Story", items:[
+  ["Tell me about a bug you caught.","After extracting my slice, a 'complaints per month' chart looked flat, which didn't match the source. I investigated and found only ~6,281 of 124,962 dates were valid — the rest were NaT (missing). Root cause: across an 8.5 GB CSV, pandas inferred the date column's type differently in different chunks, and concatenating them coerced most dates to NaT. I fixed it by converting dates to datetime inside each chunk before joining, and switched storage from CSV to Parquet. After that, all 124,962 dates were valid."],
+  ["Why did CSV cause the problem, and why Parquet?","Complaint text contains commas, quotes and line-breaks, which break CSV's structure. Parquet is a typed, compressed, columnar binary format that stores messy free text safely and preserves data types — and it was smaller (176 MB → 74 MB)."],
+  ["What is the general lesson?","Never trust a result that looks off, and always re-validate the OUTPUT of a transformation — not just the input. Assuming a step worked is the biggest risk in data work."],
+  ["How did you make validation systematic?","I wrote a reusable validate() function checking shape, nulls, duplicates, text length, date validity/range and label consistency, and ran it after every data operation so the check was never skipped or inconsistent."]
+ ]},
+ {sec:"4 · Text Cleaning / Preprocessing", items:[
+  ["How did you preprocess the text?","Evidence-first: I profiled the noise, then cleaned conservatively. I removed ~10% exact duplicates that would inflate theme counts, merged two product labels into one, normalised the government's privacy masks (XXXX, dates, money) into neutral placeholders, dropped texts under 50 characters, and kept the original text alongside the cleaned version for auditability."],
+  ["Why replace the masks with placeholders instead of deleting them?","Deleting every XXXX shatters sentences and loses context — 'In my was charged'. A neutral placeholder like <redacted> keeps the sentence grammatical and its meaning intact while removing the identity noise. Over-cleaning destroys the very signal you're trying to model."],
+  ["What is regex and where did you use it?","Regular expressions — a pattern language for find-and-replace in text. I used it to detect the masks: for example X{2,} matches any run of two or more capital X's, which I replace with <redacted>. I also matched the {$..} money masks and the XX/XX/year> date masks."],
+  ["Why remove duplicates?","Duplicates lie about frequency. 12,000 copies of one complaint would make a theme look far more common than it is, which would corrupt the whole priority ranking."],
+  ["Did you do stemming/lemmatisation or stop-word removal?","I relied on the sentence-transformer for meaning, which doesn't need heavy normalisation. I did use English stop-words and a custom noise list in the TF-IDF step for clean keyword labels. Aggressive stemming can hurt embedding quality, so I kept cleaning light."]
+ ]},
+ {sec:"5 · Embeddings", items:[
+  ["What is an embedding, simply?","A list of numbers that captures the meaning of text. My model turns each complaint into 384 numbers, and texts with similar meaning get similar numbers — like a GPS coordinate in 'meaning-space'. That's what lets me group by meaning rather than exact words."],
+  ["Which model did you use and why?","all-MiniLM-L6-v2 from sentence-transformers. It's small enough to run on a CPU, free, fast, and produces good general-purpose sentence embeddings — the right balance for a laptop prototype."],
+  ["Did you train the model?","No — I used a pre-trained model. Training a language model from scratch needs huge data and GPUs; using a strong pre-trained embedding model is the pragmatic, standard choice."],
+  ["Why 384 numbers? What are they?","384 is the model's output size — its number of dimensions. Each dimension is a learned feature of meaning; individually they're not human-interpretable, but together they place similar texts close in space."],
+  ["Embeddings are slow — how did you handle that?","It's ~75 minutes for 112k on CPU, so I ran it once in a dedicated script and saved the vectors to a .npy file. Every downstream step reloads them in seconds. That separation means an interruption later never wastes the expensive compute."],
+  ["How do you measure similarity between embeddings?","Typically cosine similarity — the angle between two vectors; closer angle = more similar meaning. KMeans here uses Euclidean distance on the vectors, which works well in practice for this."]
+ ]},
+ {sec:"6 · Clustering / KMeans", items:[
+  ["How did you find themes with no labels?","Unsupervised learning: I embedded the complaints, then clustered the vectors with KMeans, and labelled each cluster with its top TF-IDF keywords plus example complaints. No labels were ever provided — the structure came from the data."],
+  ["Explain KMeans like I'm five.","You want K groups. Drop K flags on the map, send each dot to its nearest flag, move each flag to the middle of its dots, and repeat until nothing moves. The flags are 'centroids' — the group centres."],
+  ["How did you choose K = 12?","I started with a sensible number for one product, inspected the clusters for coherence, and adjusted. 12 separated distinct problems without fragmenting into near-duplicates. You can also use metrics like the silhouette score or the elbow method, or an algorithm like HDBSCAN that finds the count automatically."],
+  ["What are the weaknesses of KMeans?","You must choose K up front; it assumes roughly round, similar-sized clusters; and it's sensitive to the starting points (I used n_init=10 to run it several times and keep the best). For odd shapes, density methods like DBSCAN/HDBSCAN can do better."],
+  ["What does random_state=42 do?","It fixes the random seed so the clustering (and any sampling) is reproducible — the same run gives the same result, which matters for a defensible, repeatable project."],
+  ["Did results change from the sample to the full data?","Yes: on 18k, fraud smeared across ~3 overlapping clusters; on the full 112k it separated cleanly into distinct categories. More data means centroids are estimated from more points, so clusters are less noisy and more stable."]
+ ]},
+ {sec:"7 · TF-IDF & Labelling", items:[
+  ["What is TF-IDF?","Term Frequency–Inverse Document Frequency — a score that's high for words common in one group but rare across all groups. It surfaces the words that make a cluster distinctive, which I use as keyword labels. Shortcut: 'the words that make this group special.'"],
+  ["Why use both single words and bigrams?","ngram_range=(1,2) captures single words and two-word phrases like 'balance transfer' or 'late payment', which are more meaningful labels than the individual words alone."],
+  ["Why a custom noise list?","My placeholders (redacted, date, money) and generic words (card, account, credit) appear everywhere and would pollute labels, so I added them to the stop-words to keep theme names clean."]
+ ]},
+ {sec:"8 · Severity, Sentiment & Priority", items:[
+  ["How did you measure severity?","Two honest signals averaged: VADER sentiment negativity per complaint, and the share of complaints mentioning high-stakes words (fraud, stolen, identity, legal…). Theme severity is the average of the two on a 0–1 scale."],
+  ["What is VADER and why use it over a deep model?","VADER is a fast, dictionary-based sentiment tool that scores text from very negative to very positive. I chose it because it's transparent, needs no GPU or API, and is good enough as a severity proxy for a prototype. A transformer sentiment model is a possible upgrade."],
+  ["How is priority calculated and why that way?","Priority = volume (%) × severity. It surfaces problems that are both common and serious, rather than ranking by popularity alone. It's the classic priority-matrix idea: frequency on one axis, impact on the other, top-right = fix first."],
+  ["What are the limitations of your severity score?","It's a proxy, not ground truth. VADER can misread sarcasm or formal legal language, and the high-stakes keyword list is hand-picked. It's defensible for a prototype, and I state its limits openly — which is better than pretending it's perfect."],
+  ["Why score the original text, not the cleaned text, for sentiment?","Because sentiment depends on the real emotional words. My placeholders remove identity noise but I want VADER to read the genuine tone, so I run it on the original narrative."]
+ ]},
+ {sec:"9 · LLM / Generative AI", items:[
+  ["Where did you use generative AI?","For theme naming. I fed each cluster's keywords and 3 example complaints to Google Gemini and asked for a concise name and description as JSON. The heavy lifting is classic ML (embeddings + clustering); the LLM just adds a human-readable label on top."],
+  ["Why not use the LLM to do the whole clustering?","It would be expensive, slow, non-deterministic, and hard to run over 112k items reliably. Embeddings + KMeans are fast, cheap, reproducible and scalable; the LLM is best used narrowly for the one thing it's great at — naming."],
+  ["How do you keep API keys safe?","The key lives in a .env file loaded at runtime with python-dotenv, and .env is in .gitignore so it's never committed or pushed. Keys are never hard-coded in the source."],
+  ["Why ask the LLM for JSON?","So the output is structured and my code can parse it reliably with json.loads. Free-form text would be fragile to read programmatically."],
+  ["What if the LLM call fails?","I built a fallback: if a call errors or rate-limits, I use the TF-IDF keyword label instead, so the pipeline never breaks. I also pace the calls with a short sleep to respect the free-tier rate limit."],
+  ["Isn't relying on an LLM a risk?","Only for the cosmetic naming step, and it has a deterministic fallback. The analytical result — the clusters and the ranking — doesn't depend on the LLM at all."]
+ ]},
+ {sec:"10 · Visualisation & PCA", items:[
+  ["What is PCA and why did you use it?","Principal Component Analysis reduces many dimensions to a few while keeping the biggest patterns. My embeddings have 384 dimensions, which can't be drawn, so I used PCA to squash them to 2 just for plotting the meaning-map."],
+  ["Why a priority matrix chart?","It shows volume vs severity at a glance, with bubble size for priority. A stakeholder instantly sees which themes are top-right (common and severe) and therefore urgent."],
+  ["Why Plotly and Streamlit?","Streamlit turns Python into an interactive web app with no front-end work, so anyone can use the tool. Plotly makes the charts interactive and hoverable, which helps non-technical users explore."]
+ ]},
+ {sec:"11 · Engineering & Python Details", items:[
+  ["How is your code organised?","Reusable logic lives in modules (text_cleaning.py, data_checks.py) imported by the scripts and the app, so cleaning is identical everywhere. Each pipeline stage is its own script with a clear input and output, and expensive steps save their results so later steps just reload them."],
+  ["What does @st.cache_data / @st.cache_resource do in your app?","They cache expensive loads so they run once and are reused across interactions — cache_data for the results bundle, cache_resource for the embedding model. Without them the app would reload everything on every click and feel slow."],
+  ["Why save embeddings as .npy and data as .parquet?",".npy is NumPy's fast binary format for numeric arrays — perfect for the embedding matrix. Parquet is a typed, compressed table format that safely stores the text data. Each format fits its data type."],
+  ["How did you ensure reproducibility?","Fixed random seeds (42) for sampling and KMeans, a pinned requirements.txt, an isolated virtual environment, and saved intermediate artifacts so any step can be re-run identically."],
+  ["What does batch_size=32 mean in model.encode?","The model embeds 32 complaints at a time rather than one-by-one, which is more efficient on the CPU. It's a throughput/memory trade-off."],
+  ["How would you scale this to millions of complaints?","Embed on a GPU or in a distributed way, store vectors in a vector database, use mini-batch KMeans or approximate nearest-neighbour clustering, and run the pipeline as scheduled batch jobs. The compute-once-and-save pattern already points that way."]
+ ]},
+ {sec:"12 · Deployment, Git & Automation", items:[
+  ["How do you use version control?","Git with a phase-by-phase commit history, so the log tells the story of how the project evolved. I keep large data, the virtual environment and secrets out via .gitignore, and push meaningful commits."],
+  ["Explain commit vs push.","A commit is a save-point on my computer; a push uploads commits to GitHub. I can commit many times locally and push once. They're separate on purpose."],
+  ["Why not commit the dataset?","It's huge and re-downloadable/regenerable. Repos should hold code, not gigabytes or secrets, so they stay light and safe."],
+  ["How is the app deployed?","Pushed to GitHub, then connected to Streamlit Community Cloud (free), which installs requirements.txt and serves it at a public URL. The hosted app reads a tiny deploy_data.json bundle; the heavy data stays local and the secret key is never shipped."],
+  ["How would you automate refreshes?","GitHub Actions on a schedule: pull the newest complaints, re-run embed → cluster → score → rank, and refresh a 'top new issues' report automatically. On-demand for humans, scheduled for the robot — all free-tier."],
+  ["How do you handle secrets in deployment?","Locally via a git-ignored .env; in hosting via the platform's secrets manager (Streamlit secrets). The key is never in the repo."]
+ ]},
+ {sec:"13 · Curveballs & Honesty", items:[
+  ["How do you know your themes are 'correct'?","There's no ground-truth label, so I validate coherence: I read the top TF-IDF keywords and real example complaints per cluster and check they tell one consistent story. I also sanity-check that the ranking matches business intuition (fraud on top). I'm honest that clustering is exploratory, not exact."],
+  ["What would you do differently or improve next?","Try HDBSCAN so the number of themes is data-driven, upgrade severity to a transformer sentiment model, add topic-coherence metrics, and wire up the scheduled GitHub Actions refresh. I'd also add a small labelled test set to measure cluster quality more objectively."],
+  ["Isn't clustering subjective? How is this defensible?","The pipeline is deterministic (fixed seeds) and reproducible, the inputs are real and cleaned transparently, and every theme is backed by real complaints anyone can read. I present it as a prioritisation aid, not an oracle — that framing is honest and defensible."],
+  ["What if two themes overlap?","It happens — two 'dispute' clusters, for instance. I note it honestly; the fix is to reduce K, merge them, or use a density-based method. On the full data most overlaps resolved on their own."],
+  ["Why should a company trust an automated system over analysts?","It's an aid, not a replacement. It reads everything (analysts can't), surfaces the priorities objectively, and lets analysts spend their time on the top issues instead of triage. Every result is traceable to real complaints."],
+  ["What did you learn about working with data?","That the data is sacred: understand it before touching it, validate after every transformation, prove claims with real examples, and be honest about limitations. The modelling is the easy part; trustworthy data work is the hard, valuable part."],
+  ["If the interviewer says 'I don't know NLP, explain embeddings' — go.","Computers only understand numbers. An embedding turns a sentence into a list of numbers that captures its meaning, so sentences that mean the same thing get similar numbers. Then I can measure which complaints are 'close in meaning' and group them — that's how the themes appear without anyone labelling them."]
+ ]}
+];
+
 const GREEN=["#DCE8B8","#B5CC7A","#8FB04E","#6B8E23","#4F6B1C","#3B5015"];
 const LAYOUT={plot_bgcolor:"rgba(0,0,0,0)",paper_bgcolor:"rgba(0,0,0,0)",
   font:{color:"#2E3320"},margin:{t:20,r:20,l:20,b:50}};
 
+let chartsDrawn=false;
 function drawCharts(){
+  if(chartsDrawn) return; chartsDrawn=true;
   const t=DATA.themes;
-  // priority matrix
   Plotly.newPlot("matrix",[{
     x:t.map(d=>d.vol), y:t.map(d=>d.sev), text:t.map(d=>String(d.rank)),
     mode:"markers+text", textposition:"middle center",
@@ -262,7 +618,6 @@ function drawCharts(){
     customdata:t.map(d=>[d.name,d.vol,d.sev,d.pri]),
     hovertemplate:"<b>#%{text} %{customdata[0]}</b><br>Volume: %{customdata[1]}%<br>Severity: %{customdata[2]}<br>Priority: %{customdata[3]}<extra></extra>"
   }],{...LAYOUT,xaxis:{title:"Volume (% of complaints)"},yaxis:{title:"Severity (0–1)"}},{responsive:true,displayModeBar:false});
-  // bars
   const s=[...t].sort((a,b)=>a.pri-b.pri);
   Plotly.newPlot("bars",[{
     type:"bar",orientation:"h",x:s.map(d=>d.pri),y:s.map(d=>d.name),
@@ -279,6 +634,39 @@ function buildList(){
     <span class="badge b-sev">⚠️ Severity: ${sevLabel(d.sev)} (${d.sev})</span>
     <span class="badge b-pri">🏆 Priority ${d.pri}</span></div>`).join("");
 }
+
+// ---- Q&A rendering, search, self-test ----
+let studyMode=false;
+function esc(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
+function renderQA(filter){
+  filter=(filter||"").trim().toLowerCase();
+  const list=document.getElementById("qaList");
+  let html="", shown=0, total=0;
+  QA.forEach(group=>{
+    const rows=group.items.filter(([q,a])=>{
+      total++;
+      if(!filter) return true;
+      return (q+" "+a).toLowerCase().includes(filter);
+    });
+    if(rows.length===0) return;
+    html+=`<div class="qsec">${group.sec}</div>`;
+    rows.forEach(([q,a])=>{
+      shown++;
+      html+=`<div class="qa${studyMode?' hidden-ans':''}">
+        <div class="q"><span class="mk">Q.</span><span>${esc(q)}</span></div>
+        <div class="a"><b>A.</b> ${esc(a)}</div></div>`;
+    });
+  });
+  list.innerHTML = html || `<p style="color:var(--muted);">No questions match "${esc(filter)}".</p>`;
+  document.getElementById("qcount").textContent =
+    (filter? `Showing ${shown} of ${total} questions` : `${total} questions across ${QA.length} topics`)
+    + (studyMode? " · self-test mode ON — click a question to reveal its answer" : "");
+  // click-to-reveal in study mode
+  list.querySelectorAll(".qa").forEach(card=>{
+    card.querySelector(".q").addEventListener("click",()=>card.classList.toggle("hidden-ans"));
+  });
+}
+
 // nav
 const nav=document.getElementById("nav");
 nav.addEventListener("click",e=>{
@@ -291,7 +679,15 @@ nav.addEventListener("click",e=>{
   window.scrollTo(0,0);
   if(id==="results"){drawCharts();}
 });
+document.getElementById("qsearch").addEventListener("input",e=>renderQA(e.target.value));
+document.getElementById("studyToggle").addEventListener("click",()=>{
+  studyMode=!studyMode;
+  document.getElementById("studyState").textContent=studyMode?"ON":"OFF";
+  renderQA(document.getElementById("qsearch").value);
+});
+
 buildList();
+renderQA("");
 </script>
 </body>
 </html>

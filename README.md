@@ -14,8 +14,9 @@
 </p>
 
 <p align="center">
-  🚀 <a href="https://complaint-insight-engine-swagata-bhowmik.streamlit.app"><b>Live Interactive App</b></a> &nbsp;·&nbsp;
-  📊 <a href="https://swagata-bhowmik.github.io/Complaint-Insight-Engine/"><b>Live Dashboard (always-on)</b></a>
+  📓 <a href="project1_insight_engine/notebooks/insight_engine_full.ipynb"><b>Notebook</b></a> &nbsp;·&nbsp;
+  🚀 <a href="https://complaint-insight-engine-swagata-bhowmik.streamlit.app"><b>Live App</b></a> &nbsp;·&nbsp;
+  📊 <a href="https://swagata-bhowmik.github.io/Complaint-Insight-Engine/index.html"><b>Live Dashboard</b></a>
 </p>
 
 ---
@@ -26,20 +27,46 @@ read. This project uses **NLP** to automatically discover the **recurring proble
 text and ranks them by **how common and how severe** they are — so a team knows exactly what to fix
 first.
 
-Built **end-to-end on real public data** (US CFPB Consumer Complaint Database). No fabrication —
+Built **end-to-end on real public data** (U.S. CFPB Consumer Complaint Database). No fabrication —
 every number traces back to a real complaint and can be defended step by step.
 
 ---
 
-## 🔗 Explore this project (3 ways)
+## 🔗 Explore this project — 3 ways
 
-| | What | Link |
-|---|------|------|
-| 📓 | **The full analysis notebook** — every step explained with theory, colorful markdown, runnable code & interpreted outputs (the real 112k run) | [`notebooks/phase3_full_depth.ipynb`](project1_insight_engine/notebooks/phase3_full_depth.ipynb) |
-| 🚀 | **Live interactive app** — walk the story + upload your OWN complaints file and get instant results | [Open the Streamlit app ↗](https://complaint-insight-engine-swagata-bhowmik.streamlit.app) |
-| 📊 | **Live HTML dashboard** — a fast, always-on webpage version (never sleeps); also downloadable from [`docs/index.html`](docs/index.html) | [Open the dashboard ↗](https://swagata-bhowmik.github.io/Complaint-Insight-Engine/) |
+<table>
+<tr>
+<td width="33%" valign="top">
 
-> 💾 **Download the HTML dashboard:** open [`docs/index.html`](docs/index.html) → click the **"Download raw file"** button on GitHub → open it in any browser, fully offline.
+### 📓 The Notebook
+The **entire project in one file** — every step explained (blue / purple / green styled), runnable
+code, and real interpreted outputs on the full 112k run.
+
+➡️ [`insight_engine_full.ipynb`](project1_insight_engine/notebooks/insight_engine_full.ipynb)
+
+</td>
+<td width="33%" valign="top">
+
+### 🚀 The Live App
+An **interactive Streamlit dashboard** — walk the story chapter by chapter, then **upload your own
+complaints file** and get instant ranked results.
+
+➡️ [Open the Streamlit app ↗](https://complaint-insight-engine-swagata-bhowmik.streamlit.app)
+
+</td>
+<td width="33%" valign="top">
+
+### 📊 The Dashboard
+A fast, **always-on webpage** version of the whole project with a **searchable Q&A study page**.
+
+➡️ [Open the dashboard ↗](https://swagata-bhowmik.github.io/Complaint-Insight-Engine/index.html)
+&nbsp;·&nbsp; file: [`docs/index.html`](docs/index.html)
+
+</td>
+</tr>
+</table>
+
+> 💾 **Use the dashboard fully offline:** open [`docs/index.html`](docs/index.html) → **"Download raw file"** → open it in any browser.
 
 ---
 
@@ -47,39 +74,30 @@ every number traces back to a real complaint and can be defended step by step.
 
 | Step | What happens | Tools |
 |------|--------------|-------|
-| 1️⃣ Ingest & clean | De-duplicate, normalize privacy masks, keep meaning | `pandas`, `regex`, `Parquet` |
+| 1️⃣ Ingest & clean | Chunked EDA on 8.5 GB, de-duplicate, normalize privacy masks, keep meaning | `pandas` · `regex` · `Parquet` |
 | 2️⃣ Embed | Turn each complaint into a 384-dim meaning-vector | `sentence-transformers` (MiniLM) |
-| 3️⃣ Cluster | Group similar complaints into themes | `scikit-learn` (KMeans) |
-| 4️⃣ Severity | Score negativity + high-stakes terms | `VADER` |
-| 5️⃣ Prioritize | Rank by **volume × severity** | — |
-| 6️⃣ Name | Give each theme a clear human label | `Google Gemini` (LLM) |
-| 7️⃣ Deliver | Interactive dashboard + upload analyzer | `Streamlit`, `Plotly` |
+| 3️⃣ Cluster | Group similar complaints into themes (unsupervised) | `scikit-learn` (KMeans) |
+| 4️⃣ Label | Extract each theme's distinctive keywords | `TF-IDF` |
+| 5️⃣ Severity | Score negativity + high-stakes terms | `VADER` |
+| 6️⃣ Prioritize | Rank by **Volume × Severity** | priority matrix |
+| 7️⃣ Name | Give each theme a clear human label | `Google Gemini` (LLM) |
+| 8️⃣ Deliver | Interactive dashboard + upload analyzer | `Streamlit` · `Plotly` |
 
 ---
 
 ## 📊 Key results — 112,481 credit-card complaints (2023–2026)
 
-- 🥇 **#1 problem: Unauthorized / fraudulent charges** — the most common *and* most severe (13.4% of all complaints).
-- Followed by merchant/refund disputes, inaccurate credit-reporting, payment-processing errors,
-  unauthorized applications, and identity theft.
-- Running on the full 112k (vs an 18k sample) produced **cleaner, more distinct themes** — a real,
-  documented finding.
+| # | Theme | Volume % | Severity | Priority |
+|---|-------|:--------:|:--------:|:--------:|
+| 🥇 1 | Unauthorized Charges & Fraud Disputes | 13.4 | 0.78 | 10.40 |
+| 🥈 2 | Billing & Merchant Charge Disputes | 12.7 | 0.53 | 6.78 |
+| 🥉 3 | Inaccurate Credit Reporting & Discrepancies | 8.8 | 0.46 | 4.07 |
+| 4 | Payment Processing & Balance Errors | 11.2 | 0.34 | 3.85 |
+| 5 | Unauthorized Credit-Card Applications | 9.7 | 0.37 | 3.62 |
 
-<p align="center"><i>Priority matrix & theme charts live in <code>project1_insight_engine/outputs/</code> and render interactively in both dashboards.</i></p>
-
----
-
-## 📓 Notebooks (read the story top-to-bottom)
-
-| Notebook | What it covers |
-|----------|----------------|
-| [`phase1_data.ipynb`](project1_insight_engine/notebooks/phase1_data.ipynb) | Getting & profiling the raw CFPB data (incl. a real data-corruption bug we caught) |
-| [`phase2_clean.ipynb`](project1_insight_engine/notebooks/phase2_clean.ipynb) | Cleaning the complaint text without destroying meaning |
-| [`phase3_engine.ipynb`](project1_insight_engine/notebooks/phase3_engine.ipynb) | The NLP engine, prototyped on an 18k sample |
-| [`phase3_full_depth.ipynb`](project1_insight_engine/notebooks/phase3_full_depth.ipynb) | **The full-depth run on all 112k complaints** — theory, reproducibility check, business insights, honest limitations |
-
-Every code cell has a header, inline comments, an explanation before it runs, and an interpretation
-of its output. Colorful markdown, emojis, and runnable outputs throughout.
+**Headline:** fraud and disputes dominate — **#1 is both the most common *and* the most severe**, an
+unambiguous "fix-first". Running on the full 112k (vs an 18k sample) produced **cleaner, more
+distinct themes** — a real, documented finding. *(Full 12-theme table in the notebook.)*
 
 ---
 
@@ -89,8 +107,20 @@ of its output. Colorful markdown, emojis, and runnable outputs throughout.
 python -m venv .venv
 .venv\Scripts\activate                                   # Windows
 pip install -r project1_insight_engine/requirements.txt
+
+# open the single end-to-end notebook...
+jupyter notebook project1_insight_engine/notebooks/insight_engine_full.ipynb
+# ...or launch the interactive dashboard
 streamlit run project1_insight_engine/app/insight_app.py
 ```
+
+---
+
+## 🗂️ The data
+**CFPB Consumer Complaint Database** — U.S. government open data (8.5 GB, 17.1M complaints, 3.8M with
+narratives). Public, free, legally clean. Scope: credit-card complaints with a narrative, 2023
+onward → 124,962 extracted → **112,481 after cleaning**. Chosen over app-store scraping (terms &
+privacy risk). *Source: consumerfinance.gov/data-research/consumer-complaints.*
 
 ---
 
@@ -101,12 +131,12 @@ streamlit run project1_insight_engine/app/insight_app.py
 ---
 
 ## 🗺️ Roadmap
-- [x] Data profiling & validation (17M-row source, chunked)
+- [x] Data profiling & validation (17M-row source, chunked EDA)
 - [x] Text cleaning (112k clean complaints)
 - [x] NLP engine — embeddings → clustering → severity → priority → LLM naming
-- [x] Full-depth analysis notebook (real 112k run)
+- [x] End-to-end analysis notebook (real 112k run, with outputs)
 - [x] Interactive Streamlit dashboard + upload-and-analyze mode
-- [x] **Live public deployment** (Streamlit Community Cloud + GitHub Pages)
+- [x] Offline HTML dashboard with a Q&A study page
 - [ ] Scheduled auto-refresh (GitHub Actions)
 
 ---
